@@ -1,0 +1,1436 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f4f3ef" />
+  <title>杨潇｜UX 设计师 Plus 晋升答辩</title>
+  <meta
+    name="description"
+    content="杨潇的互动式晋升答辩：从交互设计出发，持续拓展设计、开发与自主需求的职业边界。"
+  />
+  <style>
+    :root {
+      --paper: #f4f3ef;
+      --paper-2: #ebe9e2;
+      --ink: #11110f;
+      --muted: #6d6c65;
+      --line: rgba(17, 17, 15, 0.17);
+      --line-strong: rgba(17, 17, 15, 0.42);
+      --blue: #2157ff;
+      --cyan: #62d9ff;
+      --violet: #7a5cff;
+      --lime: #c8ff44;
+      --ease: cubic-bezier(.2, .8, .2, 1);
+      --pad-x: clamp(24px, 5vw, 84px);
+      --pad-y: clamp(28px, 6vh, 68px);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      color: var(--ink);
+      background: #0b0b0a;
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", Arial, sans-serif;
+    }
+
+    button, a { font: inherit; }
+
+    button:focus-visible {
+      outline: 3px solid var(--blue);
+      outline-offset: 4px;
+    }
+
+    .deck {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      background: var(--paper);
+      isolation: isolate;
+    }
+
+    .deck::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 20;
+      opacity: .18;
+      background-image:
+        linear-gradient(rgba(17,17,15,.11) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17,17,15,.11) 1px, transparent 1px);
+      background-size: clamp(52px, 6vw, 96px) clamp(52px, 6vw, 96px);
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.55), transparent 72%);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      padding: var(--pad-y) var(--pad-x) calc(var(--pad-y) + 42px);
+      opacity: 0;
+      visibility: hidden;
+      transform: translate3d(5vw, 0, 0) scale(.985);
+      transition:
+        opacity 420ms var(--ease),
+        transform 520ms var(--ease),
+        visibility 0s linear 520ms;
+      overflow: hidden;
+    }
+
+    .slide.is-active {
+      opacity: 1;
+      visibility: visible;
+      transform: translate3d(0, 0, 0) scale(1);
+      transition-delay: 0s;
+      z-index: 3;
+    }
+
+    .slide.is-before {
+      transform: translate3d(-4vw, 0, 0) scale(.985);
+    }
+
+    .slide__meta {
+      align-self: start;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      font-family: Arial, sans-serif;
+      font-size: clamp(10px, .85vw, 14px);
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      z-index: 3;
+    }
+
+    .slide__part {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .slide__part::before {
+      content: "";
+      width: 20px;
+      height: 2px;
+      background: var(--blue);
+    }
+
+    .slide__number {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .headline {
+      margin: 0;
+      font-size: clamp(42px, 6vw, 104px);
+      line-height: .98;
+      letter-spacing: -.065em;
+      font-weight: 850;
+    }
+
+    .headline--medium {
+      font-size: clamp(36px, 4.8vw, 78px);
+      line-height: 1.05;
+    }
+
+    .headline--compact {
+      font-size: clamp(34px, 4.1vw, 66px);
+      line-height: 1.08;
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      font-size: clamp(12px, 1vw, 16px);
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--blue);
+    }
+
+    .statement {
+      margin: 0;
+      max-width: 900px;
+      font-size: clamp(17px, 1.75vw, 28px);
+      line-height: 1.55;
+      color: #373631;
+    }
+
+    .blue { color: var(--blue); }
+    .muted { color: var(--muted); }
+
+    .nav {
+      position: fixed;
+      z-index: 50;
+      left: var(--pad-x);
+      right: var(--pad-x);
+      bottom: clamp(16px, 2.8vh, 30px);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 24px;
+      color: var(--ink);
+    }
+
+    .nav__parts {
+      display: flex;
+      align-items: center;
+      gap: clamp(12px, 2vw, 34px);
+      min-width: 0;
+      font-family: Arial, sans-serif;
+      font-size: clamp(9px, .75vw, 12px);
+      font-weight: 800;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .nav__part {
+      opacity: .35;
+      transition: opacity 240ms ease, color 240ms ease;
+    }
+
+    .nav__part.is-active {
+      opacity: 1;
+      color: var(--blue);
+    }
+
+    .nav__dots {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border: 1px solid var(--line);
+      background: rgba(244,243,239,.75);
+      backdrop-filter: blur(14px);
+      border-radius: 999px;
+    }
+
+    .nav__dot {
+      width: 8px;
+      height: 8px;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(17,17,15,.22);
+      cursor: pointer;
+      transition: width 260ms var(--ease), background 260ms ease;
+    }
+
+    .nav__dot.is-active {
+      width: 28px;
+      background: var(--blue);
+    }
+
+    .nav__controls {
+      justify-self: end;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      background: rgba(244,243,239,.75);
+      color: var(--ink);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      backdrop-filter: blur(14px);
+      transition: background 180ms ease, transform 180ms ease;
+    }
+
+    .icon-btn:hover {
+      background: white;
+      transform: translateY(-2px);
+    }
+
+    .icon-btn:disabled {
+      opacity: .28;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .shortcut {
+      position: fixed;
+      z-index: 60;
+      top: 18px;
+      right: 20px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: .08em;
+      color: rgba(17,17,15,.48);
+      opacity: 0;
+      transition: opacity 180ms ease;
+    }
+
+    .deck:hover .shortcut { opacity: 1; }
+
+    .key {
+      min-width: 24px;
+      height: 24px;
+      padding: 0 7px;
+      border: 1px solid var(--line);
+      display: inline-grid;
+      place-items: center;
+      border-radius: 5px;
+      background: rgba(255,255,255,.58);
+    }
+
+    /* P1 */
+    .cover {
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .cover__content {
+      align-self: center;
+      position: relative;
+      z-index: 2;
+      max-width: 72%;
+    }
+
+    .cover__name {
+      margin: 0 0 18px;
+      font-size: clamp(18px, 1.7vw, 28px);
+      font-weight: 800;
+      letter-spacing: .12em;
+    }
+
+    .cover__role {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 28px;
+      padding: 10px 15px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      font-size: clamp(12px, 1.15vw, 18px);
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+
+    .cover__visual {
+      position: absolute;
+      z-index: 0;
+      width: min(48vw, 720px);
+      aspect-ratio: 1;
+      right: -7vw;
+      top: 50%;
+      transform: translateY(-52%);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 42% 42%, rgba(255,255,255,.95) 0 7%, transparent 8%),
+        radial-gradient(circle at 48% 50%, rgba(98,217,255,.92), rgba(33,87,255,.88) 25%, rgba(122,92,255,.42) 42%, transparent 67%);
+      filter: saturate(1.08);
+      box-shadow: 0 0 90px rgba(33,87,255,.22);
+    }
+
+    .cover__visual::before,
+    .cover__visual::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(17,17,15,.42);
+      inset: 12%;
+      transform: rotate(17deg);
+    }
+
+    .cover__visual::after {
+      inset: 26%;
+      transform: rotate(-23deg);
+      border-color: rgba(255,255,255,.72);
+    }
+
+    .cover__agenda {
+      display: flex;
+      align-items: center;
+      gap: clamp(16px, 4vw, 56px);
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      font-size: clamp(10px, .9vw, 14px);
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+
+    .cover__agenda span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cover__agenda b {
+      color: var(--blue);
+    }
+
+    /* P2 */
+    .map {
+      grid-template-rows: auto auto 1fr;
+      gap: clamp(18px, 3.2vh, 34px);
+    }
+
+    .map__title {
+      max-width: 1040px;
+    }
+
+    .evolution-chart {
+      position: relative;
+      min-height: 0;
+      margin: 0 2vw 0 4vw;
+    }
+
+    .axis-x,
+    .axis-y {
+      position: absolute;
+      background: var(--line-strong);
+    }
+
+    .axis-x {
+      left: 6%;
+      right: 1%;
+      bottom: 10%;
+      height: 1px;
+    }
+
+    .axis-y {
+      left: 6%;
+      top: 2%;
+      bottom: 10%;
+      width: 1px;
+    }
+
+    .axis-x::after,
+    .axis-y::after {
+      content: "";
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-top: 1px solid var(--ink);
+      border-right: 1px solid var(--ink);
+    }
+
+    .axis-x::after {
+      right: 0;
+      top: -4px;
+      transform: rotate(45deg);
+    }
+
+    .axis-y::after {
+      left: -4px;
+      top: 0;
+      transform: rotate(-45deg);
+    }
+
+    .axis-label {
+      position: absolute;
+      font-size: clamp(10px, .8vw, 13px);
+      font-weight: 800;
+      letter-spacing: .08em;
+      color: var(--muted);
+    }
+
+    .axis-label--x { right: 1%; bottom: 3%; }
+    .axis-label--y { left: 1%; top: 1%; writing-mode: vertical-rl; transform: rotate(180deg); }
+
+    .route {
+      position: absolute;
+      left: 11%;
+      right: 8%;
+      top: 14%;
+      bottom: 16%;
+    }
+
+    .route__line {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .route__line::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 102%;
+      height: 100%;
+      background: linear-gradient(158deg,
+        transparent 0 34%,
+        var(--blue) 34.4% 35%,
+        transparent 35.4% 100%);
+      opacity: .92;
+    }
+
+    .route__node {
+      position: absolute;
+      transform: translate(-50%, 50%);
+      border: 0;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+      color: var(--ink);
+    }
+
+    .route__node::before {
+      content: "";
+      display: block;
+      width: clamp(18px, 1.8vw, 28px);
+      height: clamp(18px, 1.8vw, 28px);
+      margin-bottom: 10px;
+      border: 6px solid var(--paper);
+      border-radius: 50%;
+      background: var(--ink);
+      box-shadow: 0 0 0 1px var(--ink);
+      transition: transform 220ms var(--ease), background 220ms ease, box-shadow 220ms ease;
+    }
+
+    .route__node:hover::before,
+    .route__node.is-focused::before {
+      transform: scale(1.24);
+      background: var(--blue);
+      box-shadow: 0 0 0 1px var(--blue), 0 0 30px rgba(33,87,255,.28);
+    }
+
+    .route__node strong {
+      display: block;
+      font-size: clamp(16px, 1.6vw, 26px);
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+
+    .route__node small {
+      display: block;
+      margin-top: 6px;
+      font-size: clamp(10px, .8vw, 13px);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .route__node--origin { left: 0%; bottom: 0%; }
+    .route__node--one { left: 28%; bottom: 28%; }
+    .route__node--two { left: 62%; bottom: 60%; }
+    .route__node--three { left: 95%; bottom: 94%; }
+
+    .chart-note {
+      position: absolute;
+      right: 2%;
+      top: 4%;
+      width: min(310px, 28vw);
+      min-height: 76px;
+      padding: 14px 16px;
+      border-left: 3px solid var(--blue);
+      font-size: clamp(12px, 1vw, 16px);
+      line-height: 1.45;
+      color: #3e3d37;
+      background: rgba(244,243,239,.78);
+      backdrop-filter: blur(10px);
+    }
+
+    /* P3-5 */
+    .case-slide {
+      grid-template-rows: auto auto 1fr;
+      gap: clamp(20px, 4vh, 44px);
+    }
+
+    .case-grid {
+      display: grid;
+      grid-template-columns: minmax(230px, .72fr) 1.55fr;
+      gap: clamp(30px, 6vw, 92px);
+      min-height: 0;
+      align-items: stretch;
+    }
+
+    .case-thesis {
+      align-self: end;
+      padding-bottom: 6vh;
+    }
+
+    .case-thesis__index {
+      font-family: Arial, sans-serif;
+      font-size: clamp(70px, 10vw, 164px);
+      font-weight: 900;
+      line-height: .72;
+      letter-spacing: -.08em;
+      color: var(--blue);
+      opacity: .12;
+    }
+
+    .case-thesis p {
+      margin: 36px 0 0;
+      font-size: clamp(16px, 1.45vw, 24px);
+      line-height: 1.55;
+      max-width: 420px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      align-self: center;
+      border-top: 1px solid var(--line-strong);
+    }
+
+    .step {
+      position: relative;
+      min-height: clamp(250px, 42vh, 400px);
+      padding: clamp(22px, 3vw, 42px) clamp(14px, 2.2vw, 34px);
+      border: 0;
+      border-right: 1px solid var(--line);
+      background: rgba(255,255,255,.15);
+      text-align: left;
+      color: var(--ink);
+      cursor: pointer;
+      transition: background 220ms ease, transform 220ms var(--ease);
+    }
+
+    .step:last-child { border-right: 0; }
+
+    .step:hover,
+    .step.is-focused {
+      background: rgba(255,255,255,.66);
+      transform: translateY(-8px);
+    }
+
+    .step.is-focused::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -3px;
+      height: 4px;
+      background: var(--blue);
+    }
+
+    .step__number {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      color: var(--blue);
+    }
+
+    .step h3 {
+      margin: clamp(42px, 7vh, 80px) 0 14px;
+      font-size: clamp(21px, 2vw, 32px);
+      line-height: 1.1;
+    }
+
+    .step p {
+      margin: 0;
+      font-size: clamp(13px, 1.05vw, 17px);
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+    .step__mark {
+      position: absolute;
+      left: clamp(14px, 2.2vw, 34px);
+      bottom: clamp(20px, 3vw, 34px);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid var(--line-strong);
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      transition: background 220ms ease, color 220ms ease;
+    }
+
+    .step.is-focused .step__mark {
+      background: var(--blue);
+      color: white;
+      border-color: var(--blue);
+    }
+
+    /* P6 */
+    .output-slide {
+      grid-template-rows: auto auto 1fr;
+      gap: clamp(18px, 3vh, 34px);
+    }
+
+    .output-layout {
+      display: grid;
+      grid-template-columns: .82fr 1.9fr;
+      gap: clamp(28px, 5vw, 76px);
+      min-height: 0;
+    }
+
+    .output-groups {
+      display: flex;
+      flex-direction: column;
+      align-self: center;
+      border-top: 1px solid var(--line);
+    }
+
+    .output-tab {
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 0;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      background: transparent;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .output-tab span:first-child {
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--blue);
+    }
+
+    .output-tab strong {
+      font-size: clamp(15px, 1.25vw, 20px);
+    }
+
+    .output-tab i {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(17,17,15,.18);
+      transition: transform 200ms var(--ease), background 200ms ease;
+    }
+
+    .output-tab.is-active i {
+      transform: scale(1.5);
+      background: var(--blue);
+    }
+
+    .output-viz {
+      position: relative;
+      align-self: stretch;
+      display: grid;
+      place-items: center;
+      min-height: 0;
+      border-left: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .orbit {
+      position: absolute;
+      width: min(50vw, 620px);
+      aspect-ratio: 1;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      animation: orbit 36s linear infinite;
+    }
+
+    .orbit::before,
+    .orbit::after {
+      content: "";
+      position: absolute;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+    }
+
+    .orbit::before { inset: 13%; }
+    .orbit::after { inset: 31%; border-color: rgba(33,87,255,.28); }
+
+    @keyframes orbit { to { transform: rotate(360deg); } }
+
+    .output-cloud {
+      position: relative;
+      z-index: 2;
+      width: min(88%, 720px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: clamp(10px, 1.4vw, 18px);
+      transition: opacity 180ms ease, transform 260ms var(--ease);
+    }
+
+    .output-cloud.is-changing {
+      opacity: 0;
+      transform: scale(.96);
+    }
+
+    .output-pill {
+      padding: clamp(11px, 1.25vw, 18px) clamp(14px, 1.8vw, 26px);
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: rgba(244,243,239,.82);
+      font-size: clamp(14px, 1.35vw, 21px);
+      font-weight: 750;
+      box-shadow: 0 10px 30px rgba(17,17,15,.05);
+      backdrop-filter: blur(10px);
+    }
+
+    .output-pill:first-child {
+      color: white;
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+
+    .output-caption {
+      position: absolute;
+      left: 26px;
+      bottom: 22px;
+      font-size: clamp(11px, .9vw, 14px);
+      color: var(--muted);
+    }
+
+    /* P7 */
+    .future-slide {
+      grid-template-rows: auto auto 1fr;
+      gap: clamp(18px, 3vh, 34px);
+    }
+
+    .future-path {
+      align-self: center;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--line-strong);
+    }
+
+    .future-step {
+      position: relative;
+      min-height: clamp(230px, 38vh, 360px);
+      padding: clamp(24px, 3vw, 42px);
+      border-right: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .future-step:last-child { border-right: 0; }
+
+    .future-step::before {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      right: -60px;
+      bottom: -70px;
+      background: radial-gradient(circle, rgba(98,217,255,.7), rgba(33,87,255,.18) 55%, transparent 72%);
+      opacity: 0;
+      transform: scale(.5);
+      transition: opacity 260ms ease, transform 420ms var(--ease);
+    }
+
+    .future-step:hover::before { opacity: 1; transform: scale(1); }
+
+    .future-step__time {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      color: var(--blue);
+    }
+
+    .future-step h3 {
+      margin: clamp(48px, 8vh, 86px) 0 18px;
+      font-size: clamp(21px, 2vw, 32px);
+    }
+
+    .future-step p {
+      margin: 0;
+      font-size: clamp(14px, 1.05vw, 17px);
+      line-height: 1.6;
+      color: var(--muted);
+      max-width: 350px;
+    }
+
+    /* P8 */
+    .closing {
+      grid-template-rows: auto 1fr auto;
+      color: white;
+      background: #11110f;
+    }
+
+    .closing::before {
+      content: "";
+      position: absolute;
+      width: min(70vw, 1000px);
+      aspect-ratio: 1;
+      right: -25vw;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 48%, var(--cyan), var(--blue) 22%, var(--violet) 43%, transparent 67%);
+      filter: blur(4px);
+      opacity: .88;
+    }
+
+    .closing::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+      background-size: clamp(52px, 6vw, 96px) clamp(52px, 6vw, 96px);
+      mask-image: linear-gradient(to right, rgba(0,0,0,.7), transparent 90%);
+    }
+
+    .closing .slide__meta { color: rgba(255,255,255,.56); }
+    .closing__content {
+      position: relative;
+      z-index: 2;
+      align-self: center;
+      max-width: min(940px, 72vw);
+    }
+
+    .closing__content .headline { letter-spacing: -.06em; }
+
+    .closing__content p {
+      max-width: 760px;
+      margin: 34px 0 0;
+      font-size: clamp(17px, 1.7vw, 28px);
+      line-height: 1.55;
+      color: rgba(255,255,255,.72);
+    }
+
+    .closing__thanks {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      font-size: clamp(12px, 1vw, 16px);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.62);
+    }
+
+    body[data-slide="7"] .nav { color: white; }
+    body[data-slide="7"] .nav__dots,
+    body[data-slide="7"] .icon-btn {
+      border-color: rgba(255,255,255,.24);
+      background: rgba(17,17,15,.62);
+      color: white;
+    }
+    body[data-slide="7"] .nav__dot { background: rgba(255,255,255,.25); }
+    body[data-slide="7"] .nav__dot.is-active { background: var(--cyan); }
+    body[data-slide="7"] .nav__part.is-active { color: var(--cyan); }
+    body[data-slide="7"] .shortcut { color: rgba(255,255,255,.45); }
+    body[data-slide="7"] .key { border-color: rgba(255,255,255,.24); background: rgba(255,255,255,.08); }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 820px), (max-height: 620px) {
+      :root {
+        --pad-x: clamp(18px, 4vw, 38px);
+        --pad-y: clamp(22px, 4vh, 38px);
+      }
+
+      .headline { font-size: clamp(38px, 9vw, 72px); }
+      .headline--medium, .headline--compact { font-size: clamp(30px, 6.3vw, 54px); }
+      .cover__content { max-width: 82%; }
+      .cover__visual { opacity: .55; width: 74vw; right: -32vw; }
+      .cover__agenda { gap: 14px; flex-wrap: wrap; }
+      .nav { grid-template-columns: 1fr auto; }
+      .nav__parts { display: none; }
+      .nav__dots { justify-self: start; }
+      .case-grid { grid-template-columns: 1fr; gap: 10px; }
+      .case-thesis { display: none; }
+      .steps { align-self: stretch; }
+      .step { min-height: 42vh; padding: 18px 14px; }
+      .step h3 { margin-top: 36px; }
+      .output-layout { grid-template-columns: 1fr; gap: 12px; }
+      .output-groups { display: grid; grid-template-columns: repeat(4, 1fr); align-self: start; }
+      .output-tab { grid-template-columns: 1fr; gap: 4px; padding: 10px 6px; }
+      .output-tab span:first-child, .output-tab i { display: none; }
+      .output-tab strong { font-size: 11px; text-align: center; }
+      .output-viz { border-left: 0; min-height: 34vh; }
+      .future-step { padding: 20px 14px; min-height: 38vh; }
+      .future-step h3 { margin-top: 38px; }
+    }
+
+    @media (max-width: 600px) and (orientation: portrait) {
+      .slide { padding-bottom: 82px; }
+      .slide__meta { font-size: 9px; }
+      .statement { font-size: 15px; }
+      .nav { left: 18px; right: 18px; bottom: 14px; gap: 10px; }
+      .nav__dots { gap: 5px; padding: 8px 10px; }
+      .nav__dot { width: 7px; height: 7px; }
+      .nav__dot.is-active { width: 20px; }
+      .icon-btn { width: 34px; height: 34px; }
+      .shortcut { display: none; }
+      .map { gap: 14px; }
+      .evolution-chart { margin: 0; }
+      .route__node small { display: none; }
+      .chart-note { width: 52vw; font-size: 11px; }
+      .steps { grid-template-columns: 1fr; border-top: 0; }
+      .step {
+        min-height: auto;
+        padding: 14px 16px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .step h3 { margin: 12px 0 7px; }
+      .step p { font-size: 12px; }
+      .step__mark { display: none; }
+      .future-path { grid-template-columns: 1fr; border-top: 0; }
+      .future-step { min-height: auto; padding: 14px 16px; border-right: 0; border-bottom: 1px solid var(--line); }
+      .future-step h3 { margin: 12px 0 6px; font-size: 19px; }
+      .future-step p { font-size: 12px; }
+      .closing__content { max-width: 92vw; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body data-slide="0">
+  <main class="deck" id="deck" aria-label="杨潇晋升答辩互动演示">
+    <section class="slide cover is-active" data-slide="0" data-part="0" aria-label="封面">
+      <div class="slide__meta">
+        <span>Promotion Review · 2026</span>
+        <span class="slide__number">01 / 08</span>
+      </div>
+      <div class="cover__content">
+        <p class="cover__name">杨潇</p>
+        <h1 class="headline">让设计走到<br /><span class="blue">真正落地</span>的位置</h1>
+        <div class="cover__role">UX 设计师 Plus</div>
+      </div>
+      <div class="cover__visual" aria-hidden="true"></div>
+      <div class="cover__agenda" aria-label="目录">
+        <span><b>PART 01</b> 进化之路</span>
+        <span><b>PART 02</b> 产出总结</span>
+        <span><b>PART 03</b> 未来计划</span>
+      </div>
+    </section>
+
+    <section class="slide map" data-slide="1" data-part="0" aria-label="进化地图">
+      <div class="slide__meta">
+        <span class="slide__part">Part 01 · 进化之路</span>
+        <span class="slide__number">02 / 08</span>
+      </div>
+      <div class="map__title">
+        <p class="eyebrow">Evolution Map</p>
+        <h2 class="headline headline--medium">边界向右，<span class="blue">价值向上</span></h2>
+      </div>
+      <div class="evolution-chart" aria-label="工作边界与价值杠杆进化图">
+        <div class="axis-x"></div>
+        <div class="axis-y"></div>
+        <span class="axis-label axis-label--x">工作边界 →</span>
+        <span class="axis-label axis-label--y">价值杠杆 →</span>
+        <div class="route">
+          <div class="route__line"></div>
+          <button class="route__node route__node--origin is-focused" data-note="交互设计是原点：理解用户、组织信息，并建立清晰的操作路径。">
+            <strong>交互设计</strong>
+            <small>ORIGIN</small>
+          </button>
+          <button class="route__node route__node--one" data-note="第一步：从单点交互走向美术方向、设计框架与资源交付的完整统筹。">
+            <strong>设计进化</strong>
+            <small>DESIGN</small>
+          </button>
+          <button class="route__node route__node--two" data-note="第二步：用工作流与提效工具解决开发阻塞，让设计更快进入真实环境。">
+            <strong>开发落地</strong>
+            <small>BUILD</small>
+          </button>
+          <button class="route__node route__node--three" data-note="第三步：主动发现问题、发起需求，并从 0 到 1 完成系统闭环。">
+            <strong>自主发起</strong>
+            <small>INITIATE</small>
+          </button>
+        </div>
+        <div class="chart-note" id="chartNote" aria-live="polite">
+          交互设计是原点：理解用户、组织信息，并建立清晰的操作路径。
+        </div>
+      </div>
+    </section>
+
+    <section class="slide case-slide" data-slide="2" data-part="0" aria-label="设计进化案例">
+      <div class="slide__meta">
+        <span class="slide__part">01 · 设计进化</span>
+        <span class="slide__number">03 / 08</span>
+      </div>
+      <div>
+        <p class="eyebrow">Design Ownership</p>
+        <h2 class="headline headline--compact">从单点交互，<br />到<span class="blue">全局体验统筹</span></h2>
+      </div>
+      <div class="case-grid">
+        <div class="case-thesis">
+          <div class="case-thesis__index">01</div>
+          <p>在一个项目中同时覆盖美术方向、设计框架与资源交付，对体验的一致性负责。</p>
+        </div>
+        <div class="steps" data-step-group>
+          <button class="step is-focused">
+            <span class="step__number">01 / ART</span>
+            <h3>美术方向</h3>
+            <p>综合业务目标与用户感知，建立统一的视觉母题和体验原则。</p>
+            <span class="step__mark">↗</span>
+          </button>
+          <button class="step">
+            <span class="step__number">02 / SYSTEM</span>
+            <h3>设计框架</h3>
+            <p>统一信息层级、交互规则与组件逻辑，让方案可以持续扩展。</p>
+            <span class="step__mark">↗</span>
+          </button>
+          <button class="step">
+            <span class="step__number">03 / DELIVERY</span>
+            <h3>资源交付</h3>
+            <p>整理可复用资源并跟进最终呈现，让设计意图完整进入产品。</p>
+            <span class="step__mark">↗</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide case-slide" data-slide="3" data-part="0" aria-label="开发落地案例">
+      <div class="slide__meta">
+        <span class="slide__part">02 · 开发落地</span>
+        <span class="slide__number">04 / 08</span>
+      </div>
+      <div>
+        <p class="eyebrow">Design × Build</p>
+        <h2 class="headline headline--compact">把开发阻塞，变成<span class="blue">可复用的工作流与工具</span></h2>
+      </div>
+      <div class="case-grid">
+        <div class="case-thesis">
+          <div class="case-thesis__index">02</div>
+          <p>不止交付设计稿，也主动处理落地链路中的重复劳动、信息损耗和开发难题。</p>
+        </div>
+        <div class="steps" data-step-group>
+          <button class="step is-focused">
+            <span class="step__number">01 / FIND</span>
+            <h3>定位阻塞</h3>
+            <p>拆解开发过程，识别真正消耗时间、反复沟通或容易出错的环节。</p>
+            <span class="step__mark">↗</span>
+          </button>
+          <button class="step">
+            <span class="step__number">02 / BUILD</span>
+            <h3>构建方案</h3>
+            <p>把隐性的协作经验整理成明确工作流，并制作对应的提效工具。</p>
+            <span class="step__mark">↗</span>
+          </button>
+          <button class="step">
+            <span class="step__number">03 / SCALE</span>
+            <h3>接入开发</h3>
+            <p>让工具进入真实流程，减少重复操作、交付歧义与验证距离。</p>
+            <span class="step__mark">↗</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide case-slide" data-slide="4" data-part="0" aria-label="自主发起案例">
+      <div class="slide__meta">
+        <span class="slide__part">03 · 自主发起</span>
+        <span class="slide__number">05 / 08</span>
+      </div>
+      <div>
+        <p class="eyebrow">Zero to One</p>
+        <h2 class="headline headline--compact">从发现问题，到<span class="blue"> 0→1 落地一套系统</span></h2>
+      </div>
+      <div class="case-grid">
+        <div class="case-thesis">
+          <div class="case-thesis__index">03</div>
+          <p>不等待需求被分配，而是主动识别值得解决的问题，并推动它成为真实系统。</p>
+        </div>
+        <div class="steps" data-step-group>
+          <button class="step is-focused">
+            <span class="step__number">01 / DISCOVER</span>
+            <h3>主动发现</h3>
+            <p>从工作现场与用户路径中发现长期存在、但尚未被系统解决的问题。</p>
+            <span class="step__mark">↗</span>
+          </button>
+          <button class="step">
+            <span class="step__number">02 / PROPOSE</span>
+            <h3>定义需求</h3>
+            <p>明确价值、范围和关键路径，把想法转化为可判断、可推进的方案。</p>
+            <span class="step__mark">↗</span>
+          </button>
+          <button class="step">
+            <span class="step__number">03 / LAUNCH</span>
+            <h3>完成闭环</h3>
+            <p>统筹设计、实现与验证，推动系统从概念进入真实使用场景。</p>
+            <span class="step__mark">↗</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide output-slide" data-slide="5" data-part="1" aria-label="半年产出总结">
+      <div class="slide__meta">
+        <span class="slide__part">Part 02 · 产出总结</span>
+        <span class="slide__number">06 / 08</span>
+      </div>
+      <div>
+        <p class="eyebrow">Six-Month Output</p>
+        <h2 class="headline headline--compact">半年产出不只更多，<br /><span class="blue">价值链也更完整</span></h2>
+      </div>
+      <div class="output-layout">
+        <div class="output-groups" role="tablist" aria-label="产出类别">
+          <button class="output-tab is-active" data-output="design" role="tab" aria-selected="true">
+            <span>01</span><strong>设计产出</strong><i></i>
+          </button>
+          <button class="output-tab" data-output="build" role="tab" aria-selected="false">
+            <span>02</span><strong>开发与工具</strong><i></i>
+          </button>
+          <button class="output-tab" data-output="initiative" role="tab" aria-selected="false">
+            <span>03</span><strong>自主需求</strong><i></i>
+          </button>
+          <button class="output-tab" data-output="growth" role="tab" aria-selected="false">
+            <span>04</span><strong>能力沉淀</strong><i></i>
+          </button>
+        </div>
+        <div class="output-viz">
+          <div class="orbit" aria-hidden="true"></div>
+          <div class="output-cloud" id="outputCloud" aria-live="polite"></div>
+          <span class="output-caption">点击左侧类别，聚焦不同产出结构</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide future-slide" data-slide="6" data-part="2" aria-label="未来计划">
+      <div class="slide__meta">
+        <span class="slide__part">Part 03 · 未来计划</span>
+        <span class="slide__number">07 / 08</span>
+      </div>
+      <div>
+        <p class="eyebrow">Next Evolution</p>
+        <h2 class="headline headline--compact">继续拓展边界，获得<span class="blue">完整的游戏制作能力</span></h2>
+      </div>
+      <div class="future-path">
+        <article class="future-step">
+          <span class="future-step__time">NOW · 近期</span>
+          <h3>深化设计基本盘</h3>
+          <p>继续提高体验判断、系统设计与落地质量，让设计始终是能力进化的原点。</p>
+        </article>
+        <article class="future-step">
+          <span class="future-step__time">NEXT · 中期</span>
+          <h3>补全 AI 与开发</h3>
+          <p>持续建设 AI 工作流与开发能力，独立完成可玩的系统和玩法原型。</p>
+        </article>
+        <article class="future-step">
+          <span class="future-step__time">NORTH STAR · 长期</span>
+          <h3>全栈游戏制作人</h3>
+          <p>同时拥有设计、开发与产品判断，把更多游戏想法转化为完整体验。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide closing" data-slide="7" data-part="2" aria-label="结束页">
+      <div class="slide__meta">
+        <span>Yang Xiao · UX Designer Plus</span>
+        <span class="slide__number">08 / 08</span>
+      </div>
+      <div class="closing__content">
+        <p class="eyebrow" style="color: var(--cyan)">Keep Evolving</p>
+        <h2 class="headline">设计是原点，<br />完整落地是<span style="color:var(--cyan)">下一站</span></h2>
+        <p>继续拓展职业边界，把更多想法变成真正可以体验的产品。</p>
+      </div>
+      <div class="closing__thanks">
+        <span>谢谢大家</span>
+        <span>Q&amp;A</span>
+      </div>
+    </section>
+  </main>
+
+  <nav class="nav" aria-label="演示导航">
+    <div class="nav__parts" aria-hidden="true">
+      <span class="nav__part is-active">01 进化之路</span>
+      <span class="nav__part">02 产出总结</span>
+      <span class="nav__part">03 未来计划</span>
+    </div>
+    <div class="nav__dots" id="navDots"></div>
+    <div class="nav__controls">
+      <button class="icon-btn" id="prevBtn" aria-label="上一页" title="上一页（←）">←</button>
+      <button class="icon-btn" id="nextBtn" aria-label="下一页" title="下一页（→ / 空格）">→</button>
+      <button class="icon-btn" id="fullscreenBtn" aria-label="进入全屏" title="全屏（F）">⛶</button>
+    </div>
+  </nav>
+
+  <div class="shortcut" aria-hidden="true">
+    <span class="key">←</span><span class="key">→</span>
+    <span>翻页</span>
+    <span class="key">F</span><span>全屏</span>
+  </div>
+
+  <div class="sr-only" id="slideAnnouncer" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const dotsRoot = document.getElementById("navDots");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const fullscreenBtn = document.getElementById("fullscreenBtn");
+      const announcer = document.getElementById("slideAnnouncer");
+      const partLabels = Array.from(document.querySelectorAll(".nav__part"));
+      let current = Math.max(0, Math.min(slides.length - 1, Number(location.hash.replace("#/", "")) - 1 || 0));
+      let wheelLocked = false;
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      slides.forEach((slide, index) => {
+        const dot = document.createElement("button");
+        dot.className = "nav__dot";
+        dot.setAttribute("aria-label", `前往第 ${index + 1} 页`);
+        dot.addEventListener("click", () => goTo(index));
+        dotsRoot.appendChild(dot);
+      });
+
+      const dots = Array.from(document.querySelectorAll(".nav__dot"));
+
+      function goTo(next, updateHash = true) {
+        const target = Math.max(0, Math.min(slides.length - 1, next));
+        current = target;
+
+        slides.forEach((slide, index) => {
+          slide.classList.toggle("is-active", index === current);
+          slide.classList.toggle("is-before", index < current);
+          slide.setAttribute("aria-hidden", index === current ? "false" : "true");
+        });
+
+        dots.forEach((dot, index) => dot.classList.toggle("is-active", index === current));
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === slides.length - 1;
+        document.body.dataset.slide = String(current);
+
+        const part = Number(slides[current].dataset.part || 0);
+        partLabels.forEach((label, index) => label.classList.toggle("is-active", index === part));
+
+        if (updateHash) history.replaceState(null, "", `#/${current + 1}`);
+        announcer.textContent = `第 ${current + 1} 页，共 ${slides.length} 页：${slides[current].getAttribute("aria-label")}`;
+      }
+
+      function previous() { goTo(current - 1); }
+      function next() { goTo(current + 1); }
+
+      prevBtn.addEventListener("click", previous);
+      nextBtn.addEventListener("click", next);
+
+      fullscreenBtn.addEventListener("click", async () => {
+        try {
+          if (!document.fullscreenElement) {
+            await document.documentElement.requestFullscreen();
+          } else {
+            await document.exitFullscreen();
+          }
+        } catch (_) {}
+      });
+
+      document.addEventListener("fullscreenchange", () => {
+        fullscreenBtn.textContent = document.fullscreenElement ? "×" : "⛶";
+        fullscreenBtn.setAttribute("aria-label", document.fullscreenElement ? "退出全屏" : "进入全屏");
+      });
+
+      window.addEventListener("keydown", (event) => {
+        if (["ArrowRight", "PageDown", " "].includes(event.key)) {
+          event.preventDefault();
+          next();
+        } else if (["ArrowLeft", "PageUp"].includes(event.key)) {
+          event.preventDefault();
+          previous();
+        } else if (event.key === "Home") {
+          event.preventDefault();
+          goTo(0);
+        } else if (event.key === "End") {
+          event.preventDefault();
+          goTo(slides.length - 1);
+        } else if (event.key.toLowerCase() === "f") {
+          event.preventDefault();
+          fullscreenBtn.click();
+        }
+      });
+
+      window.addEventListener("wheel", (event) => {
+        if (wheelLocked || Math.abs(event.deltaY) < 28) return;
+        wheelLocked = true;
+        event.deltaY > 0 ? next() : previous();
+        setTimeout(() => { wheelLocked = false; }, 650);
+      }, { passive: true });
+
+      window.addEventListener("touchstart", (event) => {
+        touchStartX = event.changedTouches[0].clientX;
+        touchStartY = event.changedTouches[0].clientY;
+      }, { passive: true });
+
+      window.addEventListener("touchend", (event) => {
+        const dx = event.changedTouches[0].clientX - touchStartX;
+        const dy = event.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy)) {
+          dx < 0 ? next() : previous();
+        }
+      }, { passive: true });
+
+      window.addEventListener("hashchange", () => {
+        const index = Number(location.hash.replace("#/", "")) - 1;
+        if (Number.isFinite(index)) goTo(index, false);
+      });
+
+      const chartNote = document.getElementById("chartNote");
+      document.querySelectorAll(".route__node").forEach((node) => {
+        node.addEventListener("click", () => {
+          document.querySelectorAll(".route__node").forEach((item) => item.classList.remove("is-focused"));
+          node.classList.add("is-focused");
+          chartNote.textContent = node.dataset.note;
+        });
+      });
+
+      document.querySelectorAll("[data-step-group]").forEach((group) => {
+        group.querySelectorAll(".step").forEach((step) => {
+          step.addEventListener("click", () => {
+            group.querySelectorAll(".step").forEach((item) => item.classList.remove("is-focused"));
+            step.classList.add("is-focused");
+          });
+        });
+      });
+
+      const outputData = {
+        design: ["体验框架", "美术方向", "交互方案", "资源输出", "设计规范"],
+        build: ["开发工作流", "提效工具", "原型实现", "交付协同"],
+        initiative: ["问题发现", "需求发起", "系统设计", "0→1 落地"],
+        growth: ["AI 协作", "全栈实践", "方法沉淀", "能力分享"]
+      };
+
+      const outputCloud = document.getElementById("outputCloud");
+
+      function renderOutputs(key) {
+        outputCloud.classList.add("is-changing");
+        window.setTimeout(() => {
+          outputCloud.innerHTML = outputData[key]
+            .map((item) => `<span class="output-pill">${item}</span>`)
+            .join("");
+          outputCloud.classList.remove("is-changing");
+        }, 170);
+      }
+
+      document.querySelectorAll(".output-tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          document.querySelectorAll(".output-tab").forEach((item) => {
+            const active = item === tab;
+            item.classList.toggle("is-active", active);
+            item.setAttribute("aria-selected", active ? "true" : "false");
+          });
+          renderOutputs(tab.dataset.output);
+        });
+      });
+
+      renderOutputs("design");
+      goTo(current, false);
+    })();
+  </script>
+</body>
+</html>
