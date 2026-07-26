@@ -1098,6 +1098,259 @@
       border-color: var(--blue);
     }
 
+    /* P3 · Design evolution case */
+    .boss-slide {
+      grid-template-rows: auto auto 1fr;
+      gap: clamp(14px, 2.4vh, 28px);
+    }
+
+    .boss__header {
+      position: relative;
+      z-index: 4;
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(300px, .75fr);
+      align-items: end;
+      gap: clamp(28px, 5vw, 80px);
+    }
+
+    .boss__header .eyebrow {
+      margin-bottom: 12px;
+    }
+
+    .boss__header .headline {
+      font-size: clamp(34px, 4vw, 66px);
+    }
+
+    .boss__summary {
+      margin: 0 0 4px;
+      padding: 4px 0 4px 20px;
+      border-left: 3px solid var(--blue);
+      font-size: clamp(13px, 1.05vw, 17px);
+      line-height: 1.65;
+      color: #414039;
+    }
+
+    .boss__layout {
+      display: grid;
+      grid-template-columns: minmax(390px, .82fr) minmax(560px, 1.4fr);
+      gap: clamp(24px, 4vw, 64px);
+      min-height: 0;
+    }
+
+    .boss__story {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      border-top: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .boss__scope {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 0;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      font-size: clamp(9px, .72vw, 11px);
+      font-weight: 900;
+      letter-spacing: .08em;
+      color: var(--muted);
+    }
+
+    .boss__scope b {
+      color: var(--blue);
+    }
+
+    .boss__scope span {
+      padding: 6px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.42);
+    }
+
+    .boss__process {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      min-height: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .boss-stage {
+      position: relative;
+      padding: clamp(20px, 2.4vw, 36px) clamp(14px, 1.6vw, 24px);
+      border-right: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.32), transparent);
+      overflow: hidden;
+    }
+
+    .boss-stage:last-child {
+      border-right: 0;
+    }
+
+    .boss-stage::before {
+      content: attr(data-step);
+      position: absolute;
+      right: 8px;
+      top: 4px;
+      font-family: Arial Black, Arial, sans-serif;
+      font-size: clamp(60px, 7vw, 104px);
+      line-height: 1;
+      color: rgba(33,87,255,.07);
+    }
+
+    .boss-stage__label {
+      position: relative;
+      z-index: 1;
+      font-family: Arial, sans-serif;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .13em;
+      color: var(--blue);
+    }
+
+    .boss-stage h3 {
+      position: relative;
+      z-index: 1;
+      margin: clamp(36px, 6vh, 68px) 0 12px;
+      font-size: clamp(20px, 1.7vw, 27px);
+      line-height: 1.12;
+    }
+
+    .boss-stage p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: clamp(11px, .88vw, 14px);
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .boss__impact {
+      position: relative;
+      padding: 15px 12px 15px 58px;
+      border-top: 1px solid var(--line);
+      font-size: clamp(11px, .86vw, 14px);
+      line-height: 1.55;
+      color: #3d3c36;
+    }
+
+    .boss__impact::before {
+      content: "意义";
+      position: absolute;
+      left: 0;
+      top: 14px;
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--blue);
+    }
+
+    .boss__showcase {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1.38fr) minmax(220px, .62fr);
+      gap: 10px;
+      padding: 10px;
+      border: 1px solid var(--line-strong);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.56), rgba(255,255,255,.12)),
+        var(--paper-2);
+      box-shadow: 0 24px 70px rgba(17,17,15,.09);
+    }
+
+    .boss-assets {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .boss-slot {
+      position: relative;
+      min-height: 0;
+      overflow: hidden;
+      border: 1px dashed rgba(33,87,255,.42);
+      background:
+        radial-gradient(circle at 70% 25%, rgba(98,217,255,.2), transparent 38%),
+        linear-gradient(145deg, rgba(33,87,255,.08), rgba(122,92,255,.04));
+    }
+
+    .boss-slot::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .38;
+      background-image:
+        linear-gradient(rgba(17,17,15,.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17,17,15,.1) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: linear-gradient(to bottom, black, transparent);
+    }
+
+    .boss-slot__head {
+      position: absolute;
+      z-index: 2;
+      left: 14px;
+      right: 14px;
+      top: 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .11em;
+      color: var(--blue);
+      text-transform: uppercase;
+    }
+
+    .boss-slot__head span:last-child {
+      color: var(--muted);
+    }
+
+    .boss-slot__placeholder {
+      position: absolute;
+      z-index: 2;
+      inset: 44px 14px 14px;
+      display: grid;
+      place-content: center;
+      text-align: center;
+      border: 1px solid rgba(17,17,15,.12);
+      background: rgba(244,243,239,.48);
+      backdrop-filter: blur(8px);
+    }
+
+    .boss-slot__placeholder strong {
+      font-size: clamp(18px, 1.7vw, 28px);
+      line-height: 1.15;
+    }
+
+    .boss-slot__placeholder small {
+      margin-top: 8px;
+      font-family: Arial, sans-serif;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .13em;
+      color: var(--muted);
+    }
+
+    .boss-slot--ui .boss-slot__placeholder strong {
+      font-size: clamp(28px, 3.2vw, 54px);
+      letter-spacing: -.04em;
+    }
+
+    .boss-slot--ui .boss-slot__placeholder::before {
+      content: "";
+      width: min(76%, 420px);
+      height: clamp(100px, 22vh, 220px);
+      margin: 0 auto 18px;
+      border: 1px solid rgba(33,87,255,.24);
+      background:
+        linear-gradient(90deg, rgba(33,87,255,.1) 28%, transparent 28% 31%, rgba(33,87,255,.05) 31%),
+        linear-gradient(rgba(17,17,15,.08) 1px, transparent 1px);
+      background-size: auto, 100% 30px;
+      box-shadow: 0 16px 42px rgba(33,87,255,.08);
+    }
+
     /* P5 · Initiative case */
     .initiative-slide {
       grid-template-rows: auto auto 1fr;
@@ -1755,6 +2008,23 @@
       .steps { align-self: stretch; }
       .step { min-height: 42vh; padding: 18px 14px; }
       .step h3 { margin-top: 36px; }
+      .boss__header {
+        grid-template-columns: minmax(0, 1.2fr) minmax(220px, .8fr);
+        gap: 20px;
+      }
+      .boss__layout {
+        grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+        gap: 16px;
+      }
+      .boss__scope { gap: 5px; }
+      .boss__scope span { padding: 5px 6px; }
+      .boss-stage { padding: 14px 10px; }
+      .boss-stage h3 { margin: 28px 0 8px; }
+      .boss-stage p { font-size: 10px; }
+      .boss__impact { padding-top: 11px; padding-bottom: 11px; }
+      .boss__showcase {
+        grid-template-columns: minmax(0, 1.25fr) minmax(180px, .75fr);
+      }
       .initiative__header {
         grid-template-columns: minmax(0, 1.2fr) minmax(220px, .8fr);
         gap: 20px;
@@ -1812,6 +2082,11 @@
       .step h3 { margin: 12px 0 7px; }
       .step p { font-size: 12px; }
       .step__mark { display: none; }
+      .boss__header { grid-template-columns: 1fr; }
+      .boss__summary,
+      .boss__story { display: none; }
+      .boss__layout { grid-template-columns: 1fr; }
+      .boss__showcase { grid-template-columns: 1.2fr .8fr; }
       .initiative__header { grid-template-columns: 1fr; }
       .initiative__summary,
       .initiative__workflow { display: none; }
@@ -1919,39 +2194,94 @@
       </div>
     </section>
 
-    <section class="slide case-slide" data-slide="2" data-part="0" aria-label="设计进化案例">
+    <section class="slide boss-slide" data-slide="2" data-part="0" aria-label="设计进化案例：BOSS玩法体验的全面掌控">
       <div class="slide__meta">
-        <span class="slide__part">01 · 设计进化</span>
+        <span class="slide__part">01 · 设计进化 / UX+ × 美术侧</span>
         <span class="slide__number">03 / 08</span>
       </div>
-      <div>
-        <p class="eyebrow">Design Ownership</p>
-        <h2 class="headline headline--compact">从单点交互，<br />到<span class="blue">全局体验统筹</span></h2>
-      </div>
-      <div class="case-grid">
-        <div class="case-thesis">
-          <div class="case-thesis__index">01</div>
-          <p>在一个项目中同时覆盖美术方向、设计框架与资源交付，对体验的一致性负责。</p>
+
+      <div class="boss__header">
+        <div>
+          <p class="eyebrow">Boss Experience · Full Ownership</p>
+          <h2 class="headline headline--compact">BOSS 玩法体验的<br /><span class="blue">全面掌控</span></h2>
         </div>
-        <div class="steps" data-step-group>
-          <button class="step is-focused">
-            <span class="step__number">01 / ART</span>
-            <h3>美术方向</h3>
-            <p>综合业务目标与用户感知，建立统一的视觉母题和体验原则。</p>
-            <span class="step__mark">↗</span>
-          </button>
-          <button class="step">
-            <span class="step__number">02 / SYSTEM</span>
-            <h3>设计框架</h3>
-            <p>统一信息层级、交互规则与组件逻辑，让方案可以持续扩展。</p>
-            <span class="step__mark">↗</span>
-          </button>
-          <button class="step">
-            <span class="step__number">03 / DELIVERY</span>
-            <h3>资源交付</h3>
-            <p>整理可复用资源并跟进最终呈现，让设计意图完整进入产品。</p>
-            <span class="step__mark">↗</span>
-          </button>
+        <p class="boss__summary">
+          UX 完成流程与界面骨架；AI 生成 BOSS 形象、模型与战斗地图等美术资源，
+          并接入引擎验证，让核心体验从骨架长出血肉与心脏。
+        </p>
+      </div>
+
+      <div class="boss__layout">
+        <div class="boss__story">
+          <div class="boss__scope" aria-label="案例覆盖范围">
+            <b>UX+</b>
+            <span>流程与界面</span>
+            <span>AI 美术资源</span>
+            <span>引擎接入</span>
+          </div>
+
+          <div class="boss__process">
+            <article class="boss-stage" data-step="01">
+              <span class="boss-stage__label">UX FOUNDATION</span>
+              <h3>搭建体验骨架</h3>
+              <p>完成 BOSS 玩法流程、信息架构、高质量交互界面与关键反馈，保障体验流畅清晰。</p>
+            </article>
+            <article class="boss-stage" data-step="02">
+              <span class="boss-stage__label">AI ART PIPELINE</span>
+              <h3>补全血肉与心脏</h3>
+              <p>利用 AI 输出 BOSS 形象、模型和战斗地图等资源，并进入引擎完成验证与接入。</p>
+            </article>
+          </div>
+
+          <div class="boss__impact">
+            同时把控体验骨架与美术表现，保障核心体验传达准确；减少项目中台负担，并提升功能开发效率。
+          </div>
+        </div>
+
+        <div class="boss__showcase" aria-label="界面与美术素材展示预留区">
+          <div class="boss-slot boss-slot--ui">
+            <div class="boss-slot__head">
+              <span>UX / INTERFACE</span>
+              <span>主展示位</span>
+            </div>
+            <div class="boss-slot__placeholder">
+              <strong>玩法流程与界面展示</strong>
+              <small>UI SCREEN / INTERACTION VIDEO</small>
+            </div>
+          </div>
+
+          <div class="boss-assets">
+            <div class="boss-slot">
+              <div class="boss-slot__head">
+                <span>AI ART / 01</span>
+                <span>素材位</span>
+              </div>
+              <div class="boss-slot__placeholder">
+                <strong>BOSS 形象</strong>
+                <small>CONCEPT ART</small>
+              </div>
+            </div>
+            <div class="boss-slot">
+              <div class="boss-slot__head">
+                <span>AI ART / 02</span>
+                <span>素材位</span>
+              </div>
+              <div class="boss-slot__placeholder">
+                <strong>模型与引擎效果</strong>
+                <small>3D MODEL / ENGINE</small>
+              </div>
+            </div>
+            <div class="boss-slot">
+              <div class="boss-slot__head">
+                <span>AI ART / 03</span>
+                <span>素材位</span>
+              </div>
+              <div class="boss-slot__placeholder">
+                <strong>战斗地图</strong>
+                <small>BATTLE MAP</small>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -2062,26 +2392,26 @@
               preload="metadata"
               controlslist="nodownload noplaybackrate"
             >
-              <source src="/assets/hero-videos/CowboyShow.mp4" type="video/mp4" />
+              <source src="./assets/hero-videos/CowboyShow.mp4" type="video/mp4" />
             </video>
             <div class="hero-media__caption">
               立绘分析 → 分镜设计 → 视频产出 → 系统接入
             </div>
           </div>
           <div class="hero-media__picker" role="tablist" aria-label="英雄展示视频">
-            <button class="hero-video-tab is-active" role="tab" aria-selected="true" data-video="/assets/hero-videos/CowboyShow.mp4" data-mode="orange" data-title="01 · Cowboy Showcase">
+            <button class="hero-video-tab is-active" role="tab" aria-selected="true" data-video="./assets/hero-videos/CowboyShow.mp4" data-mode="orange" data-title="01 · Cowboy Showcase">
               <span>ORANGE / 01</span><strong>Cowboy</strong>
             </button>
-            <button class="hero-video-tab" role="tab" aria-selected="false" data-video="/assets/hero-videos/FiremanShow.mp4" data-mode="orange" data-title="02 · Fireman Showcase">
+            <button class="hero-video-tab" role="tab" aria-selected="false" data-video="./assets/hero-videos/FiremanShow.mp4" data-mode="orange" data-title="02 · Fireman Showcase">
               <span>ORANGE / 02</span><strong>Fireman</strong>
             </button>
-            <button class="hero-video-tab" role="tab" aria-selected="false" data-video="/assets/hero-videos/IrisShow.mp4" data-mode="orange" data-title="03 · Iris Showcase">
+            <button class="hero-video-tab" role="tab" aria-selected="false" data-video="./assets/hero-videos/IrisShow.mp4" data-mode="orange" data-title="03 · Iris Showcase">
               <span>ORANGE / 03</span><strong>Iris</strong>
             </button>
-            <button class="hero-video-tab" role="tab" aria-selected="false" data-video="/assets/hero-videos/ShieldmanShow.mp4" data-mode="orange" data-title="04 · Shieldman Showcase">
+            <button class="hero-video-tab" role="tab" aria-selected="false" data-video="./assets/hero-videos/ShieldmanShow.mp4" data-mode="orange" data-title="04 · Shieldman Showcase">
               <span>ORANGE / 04</span><strong>Shieldman</strong>
             </button>
-            <button class="hero-video-tab" role="tab" aria-selected="false" data-video="/assets/hero-videos/AshShow.mp4" data-mode="purple" data-title="05 · Ash Showcase">
+            <button class="hero-video-tab" role="tab" aria-selected="false" data-video="./assets/hero-videos/AshShow.mp4" data-mode="purple" data-title="05 · Ash Showcase">
               <span>PURPLE / 05</span><strong>Ash</strong>
             </button>
           </div>
