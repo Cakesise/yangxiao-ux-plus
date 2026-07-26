@@ -10,6 +10,7 @@ const client = path.join(dist, "client");
 
 await fs.mkdir(server, { recursive: true });
 await fs.mkdir(client, { recursive: true });
+await fs.cp(path.join(root, "assets"), path.join(client, "assets"), { recursive: true });
 
 const worker = `
 const html = ${JSON.stringify(html)};
