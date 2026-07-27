@@ -985,19 +985,33 @@
 
     /* P3-5 */
     .case-slide {
-      grid-template-rows: auto auto 1fr;
-      gap: clamp(20px, 4vh, 44px);
+      grid-template-columns: minmax(310px, .72fr) minmax(0, 1.55fr);
+      grid-template-rows: auto auto 1fr auto;
+      column-gap: clamp(30px, 6vw, 92px);
+      row-gap: clamp(18px, 3vh, 34px);
+    }
+
+    .case-slide > .slide__meta {
+      grid-column: 1 / -1;
+    }
+
+    .case__header {
+      grid-column: 1;
+      grid-row: 2;
+      align-self: end;
+    }
+
+    .case__header .headline {
+      font-size: clamp(34px, 3.7vw, 60px);
     }
 
     .case-grid {
-      display: grid;
-      grid-template-columns: minmax(230px, .72fr) 1.55fr;
-      gap: clamp(30px, 6vw, 92px);
-      min-height: 0;
-      align-items: stretch;
+      display: contents;
     }
 
     .case-thesis {
+      grid-column: 1;
+      grid-row: 3;
       align-self: end;
       padding-bottom: 6vh;
     }
@@ -1020,15 +1034,17 @@
     }
 
     .steps {
+      grid-column: 2;
+      grid-row: 2 / 4;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      align-self: center;
+      align-self: stretch;
       border-top: 1px solid var(--line-strong);
     }
 
     .step {
       position: relative;
-      min-height: clamp(250px, 42vh, 400px);
+      min-height: 0;
       padding: clamp(22px, 3vw, 42px) clamp(14px, 2.2vw, 34px);
       border: 0;
       border-right: 1px solid var(--line);
@@ -1098,19 +1114,222 @@
       border-color: var(--blue);
     }
 
+    /* P4 · Experience optimization methodology */
+    .method-slide {
+      grid-template-rows: auto auto minmax(0, 1fr) auto;
+      gap: clamp(10px, 1.8vh, 20px);
+    }
+
+    .method__header .headline {
+      max-width: 900px;
+      font-size: clamp(34px, 3.8vw, 62px);
+    }
+
+    .methodology {
+      position: relative;
+      min-height: 0;
+      display: grid;
+      place-items: center;
+    }
+
+    .method-ring {
+      position: relative;
+      width: min(100%, 1140px);
+      height: min(100%, 460px);
+      min-height: 360px;
+      isolation: isolate;
+    }
+
+    .method-ring::before {
+      content: "";
+      position: absolute;
+      z-index: -2;
+      left: 50%;
+      top: 50%;
+      width: 61%;
+      height: 67%;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(17,17,15,.19);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 10px rgba(255,255,255,.32),
+        0 0 0 11px rgba(33,87,255,.055);
+    }
+
+    .method-ring::after {
+      content: "";
+      position: absolute;
+      z-index: 3;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 0 6px rgba(33,87,255,.12), 0 0 18px rgba(33,87,255,.48);
+      offset-path: ellipse(30.5% 33.5% at 50% 50%);
+      offset-distance: 0%;
+      animation: methodOrbit 9s linear infinite;
+    }
+
+    @keyframes methodOrbit {
+      to { offset-distance: 100%; }
+    }
+
+    .method-core {
+      position: absolute;
+      z-index: 2;
+      left: 50%;
+      top: 50%;
+      width: clamp(150px, 15vw, 220px);
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(33,87,255,.34);
+      border-radius: 50%;
+      display: grid;
+      place-content: center;
+      gap: 9px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 35% 28%, rgba(255,255,255,.92), rgba(237,241,255,.82) 52%, rgba(220,229,255,.72));
+      box-shadow: 0 18px 46px rgba(33,87,255,.12);
+    }
+
+    .method-core::before {
+      content: "UX+";
+      font-family: Arial Black, Arial, sans-serif;
+      font-size: clamp(34px, 4vw, 62px);
+      line-height: .9;
+      letter-spacing: -.07em;
+      color: var(--blue);
+    }
+
+    .method-core strong {
+      font-size: clamp(16px, 1.4vw, 22px);
+      letter-spacing: -.03em;
+    }
+
+    .method-core span {
+      font-family: Arial, sans-serif;
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .13em;
+      color: var(--muted);
+    }
+
+    .method-node {
+      --node-x: 50%;
+      --node-y: 50%;
+      position: absolute;
+      z-index: 4;
+      left: var(--node-x);
+      top: var(--node-y);
+      width: clamp(140px, 13vw, 178px);
+      min-height: 62px;
+      transform: translate(-50%, -50%);
+      padding: 10px 12px 11px;
+      border: 1px solid var(--line);
+      border-top: 2px solid var(--blue);
+      border-radius: 7px;
+      background: linear-gradient(145deg, rgba(255,255,255,.88), rgba(255,255,255,.53));
+      box-shadow: 0 8px 24px rgba(17,17,15,.055);
+    }
+
+    .slide.is-active .method-node {
+      animation: methodNodeIn 540ms var(--ease) both;
+      animation-delay: calc(var(--node-index) * 70ms + 120ms);
+    }
+
+    @keyframes methodNodeIn {
+      from { opacity: 0; transform: translate(-50%, -50%) scale(.92); }
+      to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+
+    .method-node--1 { --node-x: 50%; --node-y: 17%; }
+    .method-node--2 { --node-x: 75%; --node-y: 30%; }
+    .method-node--3 { --node-x: 75%; --node-y: 70%; }
+    .method-node--4 { --node-x: 50%; --node-y: 83%; }
+    .method-node--5 { --node-x: 25%; --node-y: 70%; }
+    .method-node--6 { --node-x: 25%; --node-y: 30%; }
+
+    .method-node__meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-family: Arial, sans-serif;
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      color: var(--blue);
+    }
+
+    .method-node h3 {
+      margin: 0;
+      font-size: clamp(15px, 1.25vw, 20px);
+      line-height: 1.05;
+      letter-spacing: -.025em;
+    }
+
+    .method-node__body {
+      display: block;
+    }
+
+    .method-node__case {
+      position: absolute;
+      z-index: 5;
+      left: calc(100% + 18px);
+      top: 50%;
+      width: clamp(94px, 10vw, 132px);
+      aspect-ratio: 4 / 3;
+      transform: translateY(-50%);
+      border: 1px dashed rgba(33,87,255,.3);
+      border-radius: 4px;
+      background:
+        linear-gradient(145deg, rgba(33,87,255,.045), rgba(127,116,102,.075)),
+        rgba(255,255,255,.46);
+      box-shadow: 0 5px 14px rgba(17,17,15,.045);
+    }
+
+    .method-node__case::before {
+      content: "";
+      position: absolute;
+      right: 100%;
+      top: 50%;
+      width: 18px;
+      height: 1px;
+      background: rgba(33,87,255,.24);
+    }
+
+    .method-node--5 .method-node__case,
+    .method-node--6 .method-node__case {
+      right: calc(100% + 18px);
+      left: auto;
+    }
+
+    .method-node--5 .method-node__case::before,
+    .method-node--6 .method-node__case::before {
+      right: auto;
+      left: 100%;
+    }
+
     /* P3 · Design evolution case */
     .boss-slide {
-      grid-template-rows: auto auto 1fr;
-      gap: clamp(14px, 2.4vh, 28px);
+      grid-template-columns: minmax(560px, 1.16fr) minmax(440px, .84fr);
+      grid-template-rows: auto auto 1fr auto;
+      column-gap: clamp(24px, 4vw, 64px);
+      row-gap: clamp(14px, 2.4vh, 28px);
+    }
+
+    .boss-slide > .slide__meta {
+      grid-column: 1 / -1;
     }
 
     .boss__header {
       position: relative;
       z-index: 4;
-      display: grid;
-      grid-template-columns: minmax(0, 1.25fr) minmax(300px, .75fr);
-      align-items: end;
-      gap: clamp(28px, 5vw, 80px);
+      grid-column: 1;
+      grid-row: 2;
+      align-self: end;
     }
 
     .boss__header .eyebrow {
@@ -1121,27 +1340,16 @@
       font-size: clamp(34px, 4vw, 66px);
     }
 
-    .boss__summary {
-      margin: 0 0 4px;
-      padding: 4px 0 4px 20px;
-      border-left: 3px solid var(--blue);
-      font-size: clamp(13px, 1.05vw, 17px);
-      line-height: 1.65;
-      color: #414039;
-    }
-
     .boss__layout {
-      display: grid;
-      grid-template-columns: minmax(390px, .82fr) minmax(560px, 1.4fr);
-      gap: clamp(24px, 4vw, 64px);
-      min-height: 0;
+      display: contents;
     }
 
     .boss__story {
+      grid-column: 1;
+      grid-row: 3;
       min-height: 0;
       display: grid;
-      grid-template-rows: auto 1fr auto;
-      border-top: 1px solid var(--line-strong);
+      grid-template-rows: 1fr;
       border-bottom: 1px solid var(--line);
     }
 
@@ -1172,12 +1380,14 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       min-height: 0;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid var(--line-strong);
     }
 
     .boss-stage {
       position: relative;
-      padding: clamp(20px, 2.4vw, 36px) clamp(14px, 1.6vw, 24px);
+      display: flex;
+      flex-direction: column;
+      padding: clamp(18px, 2vw, 30px) clamp(14px, 1.5vw, 22px);
       border-right: 1px solid var(--line);
       background: linear-gradient(180deg, rgba(255,255,255,.32), transparent);
       overflow: hidden;
@@ -1211,7 +1421,7 @@
     .boss-stage h3 {
       position: relative;
       z-index: 1;
-      margin: clamp(36px, 6vh, 68px) 0 12px;
+      margin: clamp(18px, 2.8vh, 32px) 0 8px;
       font-size: clamp(20px, 1.7vw, 27px);
       line-height: 1.12;
     }
@@ -1225,31 +1435,95 @@
       color: var(--muted);
     }
 
-    .boss__impact {
+    .boss-stage__previews {
       position: relative;
-      padding: 15px 12px 15px 58px;
-      border-top: 1px solid var(--line);
-      font-size: clamp(11px, .86vw, 14px);
-      line-height: 1.55;
-      color: #3d3c36;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      flex: 0 0 clamp(128px, 18vh, 170px);
+      height: clamp(128px, 18vh, 170px);
+      min-height: 0;
+      margin-top: clamp(10px, 1.5vh, 16px);
     }
 
-    .boss__impact::before {
-      content: "意义";
+    .boss-mini-slot {
+      position: relative;
+      min-height: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 10px;
+      border: 1px dashed rgba(33,87,255,.42);
+      background:
+        radial-gradient(circle at 78% 18%, rgba(98,217,255,.22), transparent 40%),
+        linear-gradient(145deg, rgba(33,87,255,.09), rgba(122,92,255,.035));
+    }
+
+    .boss-mini-slot::before {
+      content: "";
       position: absolute;
-      left: 0;
-      top: 14px;
-      font-size: 12px;
+      inset: 0;
+      opacity: .32;
+      background-image:
+        linear-gradient(rgba(17,17,15,.09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17,17,15,.09) 1px, transparent 1px);
+      background-size: 22px 22px;
+      mask-image: linear-gradient(to bottom, black, transparent);
+    }
+
+    .boss-mini-slot::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(180deg, rgba(8,11,25,.08) 35%, rgba(8,11,25,.76));
+      pointer-events: none;
+    }
+
+    .boss-mini-slot img,
+    .boss-mini-slot video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #0c1025;
+    }
+
+    .boss-mini-slot[data-fit="contain"] img,
+    .boss-mini-slot[data-fit="contain"] video {
+      object-fit: contain;
+    }
+
+    .boss-mini-slot span,
+    .boss-mini-slot strong {
+      position: relative;
+      z-index: 2;
+      color: white;
+      text-shadow: 0 1px 8px rgba(0,0,0,.65);
+    }
+
+    .boss-mini-slot span {
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      font-size: 8px;
       font-weight: 900;
-      color: var(--blue);
+      letter-spacing: .1em;
+      color: rgba(255,255,255,.76);
+    }
+
+    .boss-mini-slot strong {
+      align-self: flex-start;
+      font-size: clamp(13px, 1vw, 17px);
+      line-height: 1.2;
     }
 
     .boss__showcase {
+      grid-column: 2;
+      grid-row: 2 / 4;
       min-height: 0;
-      display: grid;
-      grid-template-columns: minmax(0, 1.38fr) minmax(220px, .62fr);
-      gap: 10px;
-      padding: 10px;
+      padding: 6px;
       border: 1px solid var(--line-strong);
       background:
         linear-gradient(135deg, rgba(255,255,255,.56), rgba(255,255,255,.12)),
@@ -1257,11 +1531,29 @@
       box-shadow: 0 24px 70px rgba(17,17,15,.09);
     }
 
-    .boss-assets {
-      min-height: 0;
-      display: grid;
-      grid-template-rows: repeat(3, 1fr);
-      gap: 10px;
+    .boss__showcase > .boss-slot {
+      width: 100%;
+      height: 100%;
+    }
+
+    .boss-final-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #080b19;
+    }
+
+    .boss-slot--final .boss-slot__head {
+      padding: 7px 9px;
+      background: rgba(8,11,25,.66);
+      color: white;
+      backdrop-filter: blur(10px);
+    }
+
+    .boss-slot--final .boss-slot__head span:last-child {
+      color: rgba(255,255,255,.62);
     }
 
     .boss-slot {
@@ -1333,12 +1625,12 @@
       color: var(--muted);
     }
 
-    .boss-slot--ui .boss-slot__placeholder strong {
+    .boss-slot--final .boss-slot__placeholder strong {
       font-size: clamp(28px, 3.2vw, 54px);
       letter-spacing: -.04em;
     }
 
-    .boss-slot--ui .boss-slot__placeholder::before {
+    .boss-slot--final .boss-slot__placeholder::before {
       content: "";
       width: min(76%, 420px);
       height: clamp(100px, 22vh, 220px);
@@ -1353,17 +1645,22 @@
 
     /* P5 · Initiative case */
     .initiative-slide {
-      grid-template-rows: auto auto 1fr;
-      gap: clamp(14px, 2.4vh, 28px);
+      grid-template-columns: minmax(410px, .9fr) minmax(520px, 1.35fr);
+      grid-template-rows: auto auto 1fr auto;
+      column-gap: clamp(24px, 4vw, 64px);
+      row-gap: clamp(14px, 2.4vh, 28px);
+    }
+
+    .initiative-slide > .slide__meta {
+      grid-column: 1 / -1;
     }
 
     .initiative__header {
       position: relative;
       z-index: 4;
-      display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr);
-      align-items: end;
-      gap: clamp(28px, 5vw, 80px);
+      grid-column: 1;
+      grid-row: 2;
+      align-self: end;
     }
 
     .initiative__header .eyebrow {
@@ -1374,27 +1671,16 @@
       font-size: clamp(34px, 4vw, 66px);
     }
 
-    .initiative__summary {
-      margin: 0 0 4px;
-      padding: 4px 0 4px 20px;
-      border-left: 3px solid var(--blue);
-      font-size: clamp(13px, 1.05vw, 17px);
-      line-height: 1.65;
-      color: #414039;
-    }
-
     .initiative__layout {
-      display: grid;
-      grid-template-columns: minmax(410px, .9fr) minmax(520px, 1.35fr);
-      gap: clamp(24px, 4vw, 64px);
-      min-height: 0;
+      display: contents;
     }
 
     .initiative__workflow {
+      grid-column: 1;
+      grid-row: 3;
       min-height: 0;
       display: grid;
-      grid-template-rows: auto 1fr auto;
-      border-top: 1px solid var(--line-strong);
+      grid-template-rows: 1fr;
       border-bottom: 1px solid var(--line);
     }
 
@@ -1425,7 +1711,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       min-height: 0;
-      border-top: 1px solid var(--line);
+      border-top: 1px solid var(--line-strong);
     }
 
     .initiative-step {
@@ -1478,28 +1764,57 @@
       color: var(--muted);
     }
 
-    .initiative__impact {
+    .evolution-impact {
       position: relative;
-      padding: 15px 14px 15px 62px;
-      border-top: 1px solid var(--line);
+      z-index: 8;
+      grid-column: 1 / -1;
+      grid-row: 4;
+      min-height: 48px;
+      display: grid;
+      grid-template-columns: clamp(68px, 6vw, 96px) 1fr;
+      align-items: stretch;
+      overflow: hidden;
+      border: 1px solid rgba(22,67,198,.72);
+      border-radius: 6px;
+      background: linear-gradient(90deg, #2558e8 0%, #2d63f2 52%, #2355df 100%);
+      box-shadow: 0 5px 14px rgba(33,87,255,.13);
+      color: white;
       font-size: clamp(11px, .86vw, 14px);
-      line-height: 1.55;
-      color: #3d3c36;
+      line-height: 1.5;
+      text-shadow: none;
     }
 
-    .initiative__impact::before {
-      content: "价值";
-      position: absolute;
-      left: 0;
-      top: 14px;
+    .evolution-impact::after {
+      display: none;
+    }
+
+    .evolution-impact::before {
+      content: attr(data-label);
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      padding: 10px 12px;
+      border-right: 1px solid rgba(255,255,255,.22);
+      background: linear-gradient(180deg, #173fb8, #12369f);
       font-size: 12px;
       font-weight: 900;
-      color: var(--blue);
+      letter-spacing: .12em;
+    }
+
+    .evolution-impact__text {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      padding: 10px clamp(14px, 1.5vw, 24px);
     }
 
     .hero-media {
       --mode-accent: #ff7a18;
       position: relative;
+      grid-column: 2;
+      grid-row: 2 / 4;
       min-height: 0;
       display: grid;
       grid-template-rows: auto 1fr auto;
@@ -1509,17 +1824,17 @@
       overflow: hidden;
     }
 
-    .hero-media[data-mode="purple"] {
-      --mode-accent: #915cff;
+    .hero-media[data-mode="integration"] {
+      --mode-accent: #62d9ff;
     }
 
     .hero-media__top {
-      min-height: 44px;
+      min-height: 38px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 18px;
-      padding: 10px 14px;
+      padding: 8px 12px;
       border-bottom: 1px solid rgba(255,255,255,.13);
       color: white;
       font-family: Arial, "Microsoft YaHei", sans-serif;
@@ -1584,14 +1899,68 @@
       mask-image: linear-gradient(to bottom, rgba(0,0,0,.75), transparent);
     }
 
-    .hero-showcase {
+    .hero-view {
       position: absolute;
       inset: 0;
       z-index: 1;
+      display: none;
+      min-width: 0;
+      min-height: 0;
+      gap: 8px;
+      padding: 8px;
+    }
+
+    .hero-view.is-active {
+      display: grid;
+    }
+
+    .hero-view--compare {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .hero-view--interfaces {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .hero-video-card {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(4,7,18,.72);
+    }
+
+    .hero-video-card__label {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      min-height: 30px;
+      padding: 6px 9px;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.78);
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .hero-video-card__label strong {
+      color: white;
+      font-size: 10px;
+    }
+
+    .hero-video-card video {
       width: 100%;
       height: 100%;
+      min-height: 0;
       object-fit: contain;
-      background: transparent;
+      background: #050711;
     }
 
     .hero-media__caption {
@@ -1611,7 +1980,7 @@
 
     .hero-media__picker {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       border-top: 1px solid rgba(255,255,255,.14);
       background: #10142b;
     }
@@ -1619,7 +1988,7 @@
     .hero-video-tab {
       --tab-accent: #ff7a18;
       min-width: 0;
-      padding: 10px 8px 9px;
+      padding: 8px 8px 7px;
       border: 0;
       border-right: 1px solid rgba(255,255,255,.1);
       background: transparent;
@@ -1633,8 +2002,8 @@
       border-right: 0;
     }
 
-    .hero-video-tab[data-mode="purple"] {
-      --tab-accent: #915cff;
+    .hero-video-tab[data-mode="integration"] {
+      --tab-accent: #62d9ff;
     }
 
     .hero-video-tab.is-active {
@@ -1667,175 +2036,119 @@
     /* P6 */
     .output-slide {
       grid-template-rows: auto auto 1fr;
-      gap: clamp(18px, 3vh, 34px);
+      gap: clamp(14px, 2.2vh, 24px);
+    }
+
+    .output__header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .output-legend {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 9px 0 4px 18px;
+      border-left: 2px solid var(--blue);
+    }
+
+    .output-legend__item {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .output-legend__swatch {
+      width: 20px;
+      height: 9px;
+      border-radius: 2px;
+    }
+
+    .output-legend__swatch--previous {
+      border: 1px solid #a95227;
+      background: linear-gradient(90deg, rgba(190,89,37,.48), rgba(226,133,75,.2));
+    }
+
+    .output-legend__swatch--current {
+      border: 1px solid var(--blue);
+      background: linear-gradient(90deg, rgba(33,87,255,.5), rgba(98,130,232,.2));
     }
 
     .output-layout {
       display: grid;
-      grid-template-columns: .62fr 2.1fr;
-      gap: clamp(28px, 5vw, 76px);
-      min-height: 0;
-    }
-
-    .output-groups {
-      display: flex;
-      flex-direction: column;
-      align-self: center;
-      border-top: 1px solid var(--line);
-    }
-
-    .output-tab {
-      display: grid;
-      grid-template-columns: 42px 1fr auto;
-      align-items: center;
-      gap: 12px;
-      padding: 18px 0;
-      border: 0;
-      border-bottom: 1px solid var(--line);
-      background: transparent;
-      color: var(--ink);
-      text-align: left;
-      cursor: pointer;
-    }
-
-    .output-tab span:first-child {
-      font-family: Arial, sans-serif;
-      font-size: 11px;
-      font-weight: 800;
-      color: var(--blue);
-    }
-
-    .output-tab strong {
-      font-size: clamp(15px, 1.25vw, 20px);
-    }
-
-    .output-tab i {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(17,17,15,.18);
-      transition: transform 200ms var(--ease), background 200ms ease;
-    }
-
-    .output-tab.is-active i {
-      transform: scale(1.5);
-      background: var(--blue);
-    }
-
-    .output-viz {
-      position: relative;
-      align-self: stretch;
-      display: grid;
-      grid-template-columns: minmax(260px, 1.15fr) minmax(220px, .85fr);
-      align-items: stretch;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
       min-height: 0;
       border-left: 1px solid var(--line);
+      border-right: 1px solid var(--line);
       overflow: hidden;
-      background: linear-gradient(135deg, rgba(255,255,255,.44), rgba(255,255,255,.06));
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.48), rgba(255,255,255,.04)),
+        radial-gradient(circle at 50% 20%, rgba(33,87,255,.025), transparent 55%);
     }
 
-    .output-chart-wrap {
+    .output-panel {
       position: relative;
       display: grid;
-      place-items: center;
+      grid-template-rows: auto minmax(0, 1fr);
       min-height: 0;
-      padding: clamp(20px, 3vw, 44px);
+      padding: clamp(18px, 1.8vw, 27px) clamp(12px, 1.45vw, 23px) clamp(16px, 1.6vw, 24px);
       border-right: 1px solid var(--line);
     }
 
-    .output-chart-wrap::before {
-      content: "VALUE CHAIN COVERAGE";
+    .output-panel:last-child { border-right: 0; }
+
+    .output-panel__head {
+      position: relative;
+      z-index: 2;
+      display: block;
+      min-height: clamp(82px, 10vh, 104px);
+      padding-bottom: 4px;
+    }
+
+    .output-panel__head::after {
+      content: attr(data-index);
       position: absolute;
-      left: 22px;
-      top: 18px;
+      right: 0;
+      top: -12px;
+      z-index: -1;
+      font-family: Arial Black, Arial, sans-serif;
+      font-size: clamp(60px, 5.8vw, 92px);
+      line-height: 1;
+      letter-spacing: -.08em;
+      color: rgba(33,87,255,.07);
+      pointer-events: none;
+    }
+
+    .output-panel__kicker {
       font-family: Arial, sans-serif;
       font-size: 9px;
       font-weight: 900;
       letter-spacing: .15em;
-      color: var(--muted);
+      color: var(--blue);
+      white-space: nowrap;
+    }
+
+    .output-panel h3 {
+      position: relative;
+      margin: clamp(27px, 3.5vh, 38px) 0 0;
+      max-width: 7em;
+      font-size: clamp(21px, 1.75vw, 28px);
+      line-height: 1.04;
+      letter-spacing: -.035em;
+      color: var(--ink);
     }
 
     .output-chart {
-      width: min(100%, 500px);
-      height: min(100%, 420px);
-      min-height: 280px;
-    }
-
-    .output-detail {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: clamp(24px, 3.5vw, 52px);
-      overflow: hidden;
-    }
-
-    .output-detail__label {
-      margin-bottom: 14px;
-      font-family: Arial, sans-serif;
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: .13em;
-      text-transform: uppercase;
-      color: var(--blue);
-    }
-
-    .output-detail__title {
-      margin: 0 0 26px;
-      font-size: clamp(26px, 2.8vw, 46px);
-      line-height: 1;
-      letter-spacing: -.045em;
-    }
-
-    .output-cloud {
-      display: grid;
-      gap: 0;
       width: 100%;
-      transition: opacity 180ms ease, transform 260ms var(--ease);
-    }
-
-    .output-cloud.is-changing {
-      opacity: 0;
-      transform: scale(.96);
-    }
-
-    .output-pill {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: clamp(11px, 1.25vw, 17px) 0;
-      border: 0;
-      border-bottom: 1px solid var(--line);
-      border-radius: 0;
-      background: transparent;
-      font-size: clamp(13px, 1.15vw, 18px);
-      font-weight: 750;
-    }
-
-    .output-pill::after {
-      content: "↗";
-      color: var(--blue);
-      font-family: Arial, sans-serif;
-      font-size: 13px;
-    }
-
-    .output-cloud:not(.is-changing) .output-pill {
-      animation: outputItemIn 520ms var(--ease) both;
-    }
-
-    @keyframes outputItemIn {
-      from { opacity: 0; transform: translateX(18px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-
-    .output-caption {
-      position: absolute;
-      left: 22px;
-      bottom: 22px;
-      font-size: clamp(11px, .9vw, 14px);
-      color: var(--muted);
+      height: 100%;
+      min-height: clamp(275px, 38vh, 405px);
     }
 
     /* P7 */
@@ -2003,57 +2316,77 @@
       .nav { grid-template-columns: 1fr auto; }
       .nav__parts { display: none; }
       .nav__dots { justify-self: start; }
-      .case-grid { grid-template-columns: 1fr; gap: 10px; }
+      .case-slide {
+        grid-template-columns: minmax(250px, .78fr) minmax(0, 1.42fr);
+        column-gap: 16px;
+        row-gap: 12px;
+      }
+      .case__header .headline { font-size: clamp(28px, 5vw, 46px); }
       .case-thesis { display: none; }
       .steps { align-self: stretch; }
-      .step { min-height: 42vh; padding: 18px 14px; }
+      .step { min-height: 0; padding: 18px 14px; }
       .step h3 { margin-top: 36px; }
-      .boss__header {
-        grid-template-columns: minmax(0, 1.2fr) minmax(220px, .8fr);
-        gap: 20px;
+      .method-slide { gap: 8px; }
+      .method__header .headline { font-size: clamp(28px, 4.8vw, 46px); }
+      .method-ring { min-height: 300px; }
+      .method-core { width: 130px; }
+      .method-node {
+        width: 120px;
+        min-height: 56px;
+        padding: 9px 10px;
       }
-      .boss__layout {
-        grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
-        gap: 16px;
+      .method-node__meta { margin-bottom: 4px; font-size: 6px; }
+      .method-node h3 { font-size: 14px; }
+      .method-node__case {
+        left: calc(100% + 10px);
+        width: 80px;
+      }
+      .method-node--5 .method-node__case,
+      .method-node--6 .method-node__case {
+        right: calc(100% + 10px);
+        left: auto;
+      }
+      .method-node__case::before { width: 10px; }
+      .boss-slide {
+        grid-template-columns: minmax(350px, .88fr) minmax(0, 1.12fr);
+        column-gap: 16px;
+        row-gap: 12px;
       }
       .boss__scope { gap: 5px; }
       .boss__scope span { padding: 5px 6px; }
       .boss-stage { padding: 14px 10px; }
-      .boss-stage h3 { margin: 28px 0 8px; }
+      .boss-stage h3 { margin: 22px 0 7px; }
       .boss-stage p { font-size: 10px; }
-      .boss__impact { padding-top: 11px; padding-bottom: 11px; }
-      .boss__showcase {
-        grid-template-columns: minmax(0, 1.25fr) minmax(180px, .75fr);
+      .boss-stage__previews {
+        gap: 5px;
+        flex-basis: 88px;
+        height: 88px;
+        min-height: 88px;
+        margin-top: 8px;
       }
-      .initiative__header {
-        grid-template-columns: minmax(0, 1.2fr) minmax(220px, .8fr);
-        gap: 20px;
-      }
-      .initiative__layout {
-        grid-template-columns: minmax(0, .88fr) minmax(0, 1.25fr);
-        gap: 16px;
+      .boss-mini-slot { min-height: 72px; padding: 7px; }
+      .boss-mini-slot strong { font-size: 11px; }
+      .initiative-slide {
+        grid-template-columns: minmax(340px, .82fr) minmax(0, 1.18fr);
+        column-gap: 16px;
+        row-gap: 12px;
       }
       .initiative__scope { gap: 5px; }
       .initiative__scope span { padding: 5px 6px; }
       .initiative-step { padding: 14px 10px; }
       .initiative-step h3 { margin: 24px 0 8px; }
       .initiative-step p { font-size: 10px; }
-      .initiative__impact { padding-top: 11px; padding-bottom: 11px; }
       .hero-media__top { padding: 8px 10px; }
-      .output-layout { grid-template-columns: 1fr; gap: 12px; }
-      .output-groups { display: grid; grid-template-columns: repeat(4, 1fr); align-self: start; }
-      .output-tab { grid-template-columns: 1fr; gap: 4px; padding: 10px 6px; }
-      .output-tab span:first-child, .output-tab i { display: none; }
-      .output-tab strong { font-size: 11px; text-align: center; }
-      .output-viz {
-        grid-template-columns: 1.1fr .9fr;
-        border-left: 0;
-        min-height: 34vh;
-      }
-      .output-chart-wrap { padding: 14px; }
+      .output-slide { gap: 10px; }
+      .output__header .headline { font-size: clamp(28px, 4.4vw, 46px); }
+      .output-legend { gap: 10px; padding-left: 12px; }
+      .output-legend__item { font-size: 9px; }
+      .output-layout { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .output-panel { padding: 12px 10px; }
+      .output-panel__head { display: block; }
+      .output-panel__kicker { font-size: 7px; }
+      .output-panel h3 { margin-top: 24px; font-size: 17px; }
       .output-chart { min-height: 220px; }
-      .output-detail { padding: 18px; }
-      .output-detail__title { margin-bottom: 12px; font-size: 24px; }
       .future-step { padding: 20px 14px; min-height: 38vh; }
       .future-step h3 { margin-top: 38px; }
     }
@@ -2072,7 +2405,13 @@
       .evolution-chart { margin: 0; }
       .route__node small { display: none; }
       .chart-note { top: 4%; width: 52vw; font-size: 11px; }
+      .case-slide {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr auto;
+      }
+      .case__header { grid-column: 1; grid-row: 2; }
       .steps { grid-template-columns: 1fr; border-top: 0; }
+      .case-slide .steps { grid-column: 1; grid-row: 3; }
       .step {
         min-height: auto;
         padding: 14px 16px;
@@ -2082,15 +2421,82 @@
       .step h3 { margin: 12px 0 7px; }
       .step p { font-size: 12px; }
       .step__mark { display: none; }
-      .boss__header { grid-template-columns: 1fr; }
-      .boss__summary,
-      .boss__story { display: none; }
-      .boss__layout { grid-template-columns: 1fr; }
-      .boss__showcase { grid-template-columns: 1.2fr .8fr; }
-      .initiative__header { grid-template-columns: 1fr; }
-      .initiative__summary,
+      .method-slide { gap: 5px; }
+      .method__header .headline { font-size: 28px; }
+      .method-ring { min-height: 340px; }
+      .method-core { width: 108px; }
+      .method-core strong { font-size: 13px; }
+      .method-core span { font-size: 5px; }
+      .method-node {
+        width: 102px;
+        min-height: 54px;
+        padding: 7px 8px;
+      }
+      .method-node__meta { font-size: 5px; }
+      .method-node h3 { font-size: 12px; }
+      .method-node__case { width: 50px; }
+      .boss-slide {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr auto;
+      }
+      .boss__header { grid-column: 1; grid-row: 2; }
+      .boss__layout {
+        display: grid;
+        grid-column: 1;
+        grid-row: 3;
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 1.25fr) minmax(150px, .75fr);
+        gap: 8px;
+      }
+      .boss__story,
+      .boss__showcase {
+        grid-column: auto;
+        grid-row: auto;
+      }
+      .boss__scope,
+      .boss-stage p { display: none; }
+      .boss__story { grid-template-rows: 1fr; }
+      .boss-stage { padding: 8px; }
+      .boss-stage h3 { margin: 15px 0 4px; font-size: 15px; }
+      .boss-stage__previews {
+        grid-template-columns: 1fr;
+        gap: 4px;
+        min-height: 0;
+        margin-top: 5px;
+      }
+      .boss-mini-slot { min-height: 44px; padding: 5px 6px; }
+      .boss-mini-slot span { font-size: 7px; }
+      .boss-mini-slot strong { font-size: 10px; }
+      .boss__showcase { padding: 6px; }
+      .boss-slot__head { top: 8px; left: 10px; right: 10px; }
+      .boss-slot__placeholder { inset: 34px 10px 10px; }
+      .boss-slot--final .boss-slot__placeholder::before {
+        height: 58px;
+        margin-bottom: 8px;
+      }
+      .initiative-slide {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr auto;
+      }
+      .initiative__header { grid-column: 1; grid-row: 2; }
       .initiative__workflow { display: none; }
-      .initiative__layout { grid-template-columns: 1fr; }
+      .initiative__layout {
+        display: grid;
+        grid-column: 1;
+        grid-row: 3;
+        grid-template-columns: 1fr;
+      }
+      .hero-media {
+        grid-column: auto;
+        grid-row: auto;
+      }
+      .evolution-impact {
+        min-height: 42px;
+        grid-template-columns: 56px 1fr;
+        font-size: 10px;
+      }
+      .evolution-impact::before,
+      .evolution-impact__text { padding: 7px 9px; }
       .hero-media__modes { display: none; }
       .hero-media__frame { min-height: 42vh; }
       .hero-video-tab { padding: 9px 5px 8px; }
@@ -2100,10 +2506,16 @@
       .future-step h3 { margin: 12px 0 6px; font-size: 19px; }
       .future-step p { font-size: 12px; }
       .closing__content { max-width: 92vw; }
-      .output-viz { grid-template-columns: 1fr; }
-      .output-chart-wrap { min-height: 28vh; border-right: 0; border-bottom: 1px solid var(--line); }
-      .output-detail { justify-content: flex-start; }
-      .output-pill { padding: 9px 0; font-size: 12px; }
+      .output__header { gap: 8px; }
+      .output__header .headline { font-size: 27px; }
+      .output-legend { gap: 6px; padding-left: 8px; }
+      .output-legend__item { font-size: 7px; }
+      .output-legend__swatch { width: 11px; height: 6px; }
+      .output-panel { padding: 8px 5px; }
+      .output-panel__kicker { font-size: 6px; letter-spacing: .08em; }
+      .output-panel h3 { font-size: 13px; }
+      .output-panel__head::after { top: -5px; font-size: 40px; }
+      .output-chart { min-height: 150px; }
       .cover__idle { display: none; }
     }
 
@@ -2158,7 +2570,6 @@
         <span class="slide__number">02 / 08</span>
       </div>
       <div class="map__title">
-        <p class="eyebrow">Evolution Map</p>
         <h2 class="headline headline--medium">拓宽边界，<span class="blue">功率陡升</span></h2>
       </div>
       <div class="evolution-chart" aria-label="能力进化阶段与个人输出效率波峰图">
@@ -2174,17 +2585,17 @@
             <strong>交互设计</strong>
             <small>ORIGIN</small>
           </button>
-          <button class="route__node route__node--one" data-label="STEP 01 · 设计进化" data-stage="1" data-note="第一步：从单点交互走向美术方向、设计框架与资源交付的完整统筹。">
+          <button class="route__node route__node--one" data-label="STEP 01 · UX+ 美术侧 · 设计进化" data-stage="1" data-note="设计进化：从交互框架走向美术资源与最终体验的完整统筹。">
             <strong>设计进化</strong>
-            <small>DESIGN</small>
+            <small>UX+ 美术侧</small>
           </button>
-          <button class="route__node route__node--two" data-label="STEP 02 · 开发落地" data-stage="2" data-note="第二步：用工作流与提效工具解决开发阻塞，让设计更快进入真实环境。">
-            <strong>开发落地</strong>
-            <small>BUILD</small>
+          <button class="route__node route__node--two" data-label="STEP 02 · UX+ 开发侧 · 高效闭环" data-stage="2" data-note="高效闭环：从体验问题出发，结合 AI 与开发能力，让方案在真实流程中快速验证。">
+            <strong>高效闭环</strong>
+            <small>UX+ 开发侧</small>
           </button>
-          <button class="route__node route__node--three" data-label="STEP 03 · 自主发起" data-stage="3" data-note="第三步：主动发现问题、发起需求，并从 0 到 1 完成系统闭环。">
-            <strong>自主发起</strong>
-            <small>INITIATE</small>
+          <button class="route__node route__node--three" data-label="STEP 03 · UX+ 需求侧 · 深化价值" data-stage="3" data-note="深化价值：主动发起需求、跨侧协同并闭环，让体验价值进入项目工作流。">
+            <strong>深化价值</strong>
+            <small>UX+ 需求侧</small>
           </button>
         </div>
         <div class="chart-note" id="chartNote" aria-live="polite">
@@ -2194,160 +2605,166 @@
       </div>
     </section>
 
-    <section class="slide boss-slide" data-slide="2" data-part="0" aria-label="设计进化案例：BOSS玩法体验的全面掌控">
+    <section class="slide boss-slide" data-slide="2" data-part="0" aria-label="UX+美术侧：设计进化">
       <div class="slide__meta">
-        <span class="slide__part">01 · 设计进化 / UX+ × 美术侧</span>
+        <span class="slide__part">01 · UX+ 美术侧 —— 设计进化</span>
         <span class="slide__number">03 / 08</span>
       </div>
 
       <div class="boss__header">
         <div>
-          <p class="eyebrow">Boss Experience · Full Ownership</p>
           <h2 class="headline headline--compact">BOSS 玩法体验的<br /><span class="blue">全面掌控</span></h2>
         </div>
-        <p class="boss__summary">
-          UX 完成流程与界面骨架；AI 生成 BOSS 形象、模型与战斗地图等美术资源，
-          并接入引擎验证，让核心体验从骨架长出血肉与心脏。
-        </p>
       </div>
 
       <div class="boss__layout">
         <div class="boss__story">
-          <div class="boss__scope" aria-label="案例覆盖范围">
-            <b>UX+</b>
-            <span>流程与界面</span>
-            <span>AI 美术资源</span>
-            <span>引擎接入</span>
-          </div>
-
           <div class="boss__process">
             <article class="boss-stage" data-step="01">
               <span class="boss-stage__label">UX FOUNDATION</span>
               <h3>搭建体验骨架</h3>
               <p>完成 BOSS 玩法流程、信息架构、高质量交互界面与关键反馈，保障体验流畅清晰。</p>
+              <div class="boss-stage__previews" aria-label="体验骨架展示">
+                <div class="boss-mini-slot" data-fit="contain">
+                  <img src="./assets/英雄视频/交互界面.png" alt="BOSS 玩法交互界面资源" />
+                  <span>UX / FRAMEWORK</span>
+                  <strong>交互框架</strong>
+                </div>
+                <div class="boss-mini-slot" data-fit="contain">
+                  <img src="./assets/英雄视频/战斗界面.png" alt="BOSS 玩法战斗界面资源" />
+                  <span>UX / UI ASSETS</span>
+                  <strong>界面资源</strong>
+                </div>
+              </div>
             </article>
             <article class="boss-stage" data-step="02">
               <span class="boss-stage__label">AI ART PIPELINE</span>
               <h3>补全血肉与心脏</h3>
               <p>利用 AI 输出 BOSS 形象、模型和战斗地图等资源，并进入引擎完成验证与接入。</p>
+              <div class="boss-stage__previews" aria-label="美术资源展示">
+                <div class="boss-mini-slot" data-fit="contain">
+                  <img src="./assets/Boss玩法/Boss设计.png" alt="BOSS 角色三视图设计" />
+                  <span>AI ART / BOSS</span>
+                  <strong>BOSS 形象</strong>
+                </div>
+                <div class="boss-mini-slot">
+                  <img src="./assets/Boss玩法/场景设计.png" alt="BOSS 战斗地图设计" />
+                  <span>AI ART / MAP</span>
+                  <strong>战斗地图</strong>
+                </div>
+              </div>
             </article>
           </div>
 
-          <div class="boss__impact">
-            同时把控体验骨架与美术表现，保障核心体验传达准确；减少项目中台负担，并提升功能开发效率。
-          </div>
         </div>
 
-        <div class="boss__showcase" aria-label="界面与美术素材展示预留区">
-          <div class="boss-slot boss-slot--ui">
+        <div class="boss__showcase" aria-label="最终界面展示预留区">
+          <div class="boss-slot boss-slot--final">
             <div class="boss-slot__head">
-              <span>UX / INTERFACE</span>
-              <span>主展示位</span>
+              <span>UX+ / FINAL INTERFACE</span>
+              <span>最终展示</span>
             </div>
-            <div class="boss-slot__placeholder">
-              <strong>玩法流程与界面展示</strong>
-              <small>UI SCREEN / INTERACTION VIDEO</small>
-            </div>
+            <video
+              class="boss-final-video"
+              src="./assets/Boss玩法/Boss玩法.mp4"
+              autoplay
+              muted
+              loop
+              playsinline
+              controls
+              preload="metadata"
+              controlslist="nodownload noplaybackrate"
+              aria-label="BOSS 玩法最终界面演示"
+            ></video>
           </div>
-
-          <div class="boss-assets">
-            <div class="boss-slot">
-              <div class="boss-slot__head">
-                <span>AI ART / 01</span>
-                <span>素材位</span>
-              </div>
-              <div class="boss-slot__placeholder">
-                <strong>BOSS 形象</strong>
-                <small>CONCEPT ART</small>
-              </div>
-            </div>
-            <div class="boss-slot">
-              <div class="boss-slot__head">
-                <span>AI ART / 02</span>
-                <span>素材位</span>
-              </div>
-              <div class="boss-slot__placeholder">
-                <strong>模型与引擎效果</strong>
-                <small>3D MODEL / ENGINE</small>
-              </div>
-            </div>
-            <div class="boss-slot">
-              <div class="boss-slot__head">
-                <span>AI ART / 03</span>
-                <span>素材位</span>
-              </div>
-              <div class="boss-slot__placeholder">
-                <strong>战斗地图</strong>
-                <small>BATTLE MAP</small>
-              </div>
-            </div>
-          </div>
+        </div>
+      </div>
+      <div class="boss__impact evolution-impact" data-label="意义">
+        <div class="evolution-impact__text">
+          同时把控体验骨架与美术表现，保障核心体验传达准确；减少项目中台负担，并提升功能开发效率。
         </div>
       </div>
     </section>
 
-    <section class="slide case-slide" data-slide="3" data-part="0" aria-label="开发落地案例">
+    <section class="slide method-slide" data-slide="3" data-part="0" aria-label="UX+开发侧：高效闭环">
       <div class="slide__meta">
-        <span class="slide__part">02 · 开发落地</span>
+        <span class="slide__part">02 · UX+ 开发侧 —— 高效闭环</span>
         <span class="slide__number">04 / 08</span>
       </div>
-      <div>
-        <p class="eyebrow">Design × Build</p>
-        <h2 class="headline headline--compact">把开发阻塞，变成<span class="blue">可复用的工作流与工具</span></h2>
+      <div class="method__header">
+        <h2 class="headline headline--compact">自主体验优化，<br /><span class="blue">设计与落地同时进行。</span></h2>
       </div>
-      <div class="case-grid">
-        <div class="case-thesis">
-          <div class="case-thesis__index">02</div>
-          <p>不止交付设计稿，也主动处理落地链路中的重复劳动、信息损耗和开发难题。</p>
+      <div class="methodology">
+        <div class="method-ring" aria-label="体验优化、问题定位、目标定义、AI协同、落地验证和沉淀复用的闭环流程">
+          <div class="method-core">
+            <strong>体验优化闭环</strong>
+            <span>DESIGN × AI × DELIVERY</span>
+          </div>
+
+          <article class="method-node method-node--1" style="--node-index:1">
+            <div class="method-node__meta"><span>01 / EXPERIENCE</span><span>起点</span></div>
+            <div class="method-node__body">
+              <h3>体验出发</h3>
+              <div class="method-node__case" data-case-slot="experience" role="img" aria-label="体验出发案例图片待上传"></div>
+            </div>
+          </article>
+          <article class="method-node method-node--2" style="--node-index:2">
+            <div class="method-node__meta"><span>02 / DIAGNOSE</span><span>根因</span></div>
+            <div class="method-node__body">
+              <h3>定位问题</h3>
+              <div class="method-node__case" data-case-slot="diagnose" role="img" aria-label="定位问题案例图片待上传"></div>
+            </div>
+          </article>
+          <article class="method-node method-node--3" style="--node-index:3">
+            <div class="method-node__meta"><span>03 / DEFINE</span><span>目标</span></div>
+            <div class="method-node__body">
+              <h3>定义目标</h3>
+              <div class="method-node__case" data-case-slot="define" role="img" aria-label="定义目标案例图片待上传"></div>
+            </div>
+          </article>
+          <article class="method-node method-node--4" style="--node-index:4">
+            <div class="method-node__meta"><span>04 / AI SOLVE</span><span>加速</span></div>
+            <div class="method-node__body">
+              <h3>AI 协同求解</h3>
+              <div class="method-node__case" data-case-slot="ai-solve" role="img" aria-label="AI协同求解案例图片待上传"></div>
+            </div>
+          </article>
+          <article class="method-node method-node--5" style="--node-index:5">
+            <div class="method-node__meta"><span>05 / VALIDATE</span><span>落地</span></div>
+            <div class="method-node__body">
+              <h3>落地验证</h3>
+              <div class="method-node__case" data-case-slot="validate" role="img" aria-label="落地验证案例图片待上传"></div>
+            </div>
+          </article>
+          <article class="method-node method-node--6" style="--node-index:6">
+            <div class="method-node__meta"><span>06 / SCALE</span><span>复用</span></div>
+            <div class="method-node__body">
+              <h3>沉淀复用</h3>
+              <div class="method-node__case" data-case-slot="scale" role="img" aria-label="沉淀复用案例图片待上传"></div>
+            </div>
+          </article>
         </div>
-        <div class="steps" data-step-group>
-          <button class="step is-focused">
-            <span class="step__number">01 / FIND</span>
-            <h3>定位阻塞</h3>
-            <p>拆解开发过程，识别真正消耗时间、反复沟通或容易出错的环节。</p>
-            <span class="step__mark">↗</span>
-          </button>
-          <button class="step">
-            <span class="step__number">02 / BUILD</span>
-            <h3>构建方案</h3>
-            <p>把隐性的协作经验整理成明确工作流，并制作对应的提效工具。</p>
-            <span class="step__mark">↗</span>
-          </button>
-          <button class="step">
-            <span class="step__number">03 / SCALE</span>
-            <h3>接入开发</h3>
-            <p>让工具进入真实流程，减少重复操作、交付歧义与验证距离。</p>
-            <span class="step__mark">↗</span>
-          </button>
+      </div>
+      <div class="case__impact evolution-impact" data-label="方法论">
+        <div class="evolution-impact__text">
+          从主动体验与定位问题出发，用 AI 加速方案与实现，在真实流程中验证，并沉淀为可复用的开发能力。
         </div>
       </div>
     </section>
 
-    <section class="slide initiative-slide" data-slide="4" data-part="0" aria-label="自主发起案例：英雄展示系统的全流程搭建">
+    <section class="slide initiative-slide" data-slide="4" data-part="0" aria-label="UX+需求侧：深化价值">
       <div class="slide__meta">
-        <span class="slide__part">03 · 自主发起 / UX+ × 需求侧 × 落地侧</span>
+        <span class="slide__part">03 · UX+ 需求侧 —— 深化价值</span>
         <span class="slide__number">05 / 08</span>
       </div>
       <div class="initiative__header">
         <div>
-          <p class="eyebrow">Hero Showcase System · Zero to One</p>
           <h2 class="headline headline--compact">英雄展示系统的<br /><span class="blue">全流程搭建</span></h2>
         </div>
-        <p class="initiative__summary">
-          从用户体验出发，主动发现并强化卡牌养成中的价值表现；
-          再把一次设计沉淀为可快速接入任意系统或活动的英雄视频自动化流程。
-        </p>
       </div>
 
       <div class="initiative__layout">
         <div class="initiative__workflow">
-          <div class="initiative__scope" aria-label="案例覆盖范围">
-            <b>UX+</b>
-            <span>体验价值</span>
-            <span>需求定义</span>
-            <span>落地工作流</span>
-          </div>
-
           <div class="initiative__steps">
             <article class="initiative-step" data-step="01">
               <span class="initiative-step__label">EXPERIENCE</span>
@@ -2366,55 +2783,61 @@
             </article>
           </div>
 
-          <div class="initiative__impact">
-            不止完成一批英雄视频，更把“主动挖掘并强化体验价值”的方法，
-            沉淀成能够推广到整个项目的设计工作流。
-          </div>
         </div>
 
-        <div class="hero-media" id="heroMedia" data-mode="orange">
+        <div class="hero-media" id="heroMedia" data-mode="compare">
           <div class="hero-media__top">
-            <span class="hero-media__title" id="heroMediaTitle">01 · Cowboy Showcase</span>
+            <span class="hero-media__title" id="heroMediaTitle">01 · 橙紫英雄对比</span>
             <div class="hero-media__modes" aria-label="双模接入方式">
-              <span class="hero-mode hero-mode--orange">橙色 · 单通道</span>
-              <span class="hero-mode hero-mode--purple">紫色 · 双通道</span>
+              <span class="hero-mode hero-mode--orange">橙色英雄</span>
+              <span class="hero-mode hero-mode--purple">紫色英雄</span>
             </div>
           </div>
           <div class="hero-media__frame">
-            <video
-              class="hero-showcase"
-              id="heroShowcase"
-              autoplay
-              muted
-              loop
-              playsinline
-              controls
-              preload="metadata"
-              controlslist="nodownload noplaybackrate"
-            >
-              <source src="./assets/hero-videos/CowboyShow.mp4" type="video/mp4" />
-            </video>
-            <div class="hero-media__caption">
-              立绘分析 → 分镜设计 → 视频产出 → 系统接入
+            <div class="hero-view hero-view--compare is-active" data-view="compare">
+              <div class="hero-video-card">
+                <div class="hero-video-card__label"><span>Orange quality</span><strong>橙色英雄</strong></div>
+                <video src="./assets/hero-videos/orange-compare.mp4" autoplay muted loop playsinline preload="metadata" aria-label="橙色英雄展示视频"></video>
+              </div>
+              <div class="hero-video-card">
+                <div class="hero-video-card__label"><span>Purple quality</span><strong>紫色英雄</strong></div>
+                <video src="./assets/hero-videos/purple-compare.mp4" autoplay muted loop playsinline preload="metadata" aria-label="紫色英雄展示视频"></video>
+              </div>
+              <div class="hero-media__caption">
+                同屏对比不同品质英雄的展示层级与价值感
+              </div>
+            </div>
+            <div class="hero-view hero-view--interfaces" data-view="interfaces">
+              <div class="hero-video-card">
+                <div class="hero-video-card__label"><span>Sub page</span><strong>子界面</strong></div>
+                <video src="./assets/英雄视频/子界面.mp4" autoplay muted loop playsinline preload="metadata" aria-label="英雄视频子界面接入效果"></video>
+              </div>
+              <div class="hero-video-card">
+                <div class="hero-video-card__label"><span>Event page</span><strong>活动界面</strong></div>
+                <video src="./assets/英雄视频/活动界面.mp4" autoplay muted loop playsinline preload="metadata" aria-label="英雄视频活动界面接入效果"></video>
+              </div>
+              <div class="hero-video-card">
+                <div class="hero-video-card__label"><span>Recruit page</span><strong>招募界面</strong></div>
+                <video src="./assets/英雄视频/招募界面.mp4" autoplay muted loop playsinline preload="metadata" aria-label="英雄视频招募界面接入效果"></video>
+              </div>
+              <div class="hero-media__caption">
+                同一套视频能力快速接入子界面、活动与招募场景
+              </div>
             </div>
           </div>
-          <div class="hero-media__picker" role="tablist" aria-label="英雄展示视频">
-            <button class="hero-video-tab is-active" role="tab" aria-selected="true" data-video="./assets/hero-videos/CowboyShow.mp4" data-mode="orange" data-title="01 · Cowboy Showcase">
-              <span>ORANGE / 01</span><strong>Cowboy</strong>
+          <div class="hero-media__picker" role="tablist" aria-label="英雄展示模式">
+            <button class="hero-video-tab is-active" role="tab" aria-selected="true" data-view="compare" data-mode="compare" data-title="01 · 橙紫英雄对比">
+              <span>01 / COMPARE</span><strong>橙紫英雄对比</strong>
             </button>
-            <button class="hero-video-tab" role="tab" aria-selected="false" data-video="./assets/hero-videos/FiremanShow.mp4" data-mode="orange" data-title="02 · Fireman Showcase">
-              <span>ORANGE / 02</span><strong>Fireman</strong>
-            </button>
-            <button class="hero-video-tab" role="tab" aria-selected="false" data-video="./assets/hero-videos/IrisShow.mp4" data-mode="orange" data-title="03 · Iris Showcase">
-              <span>ORANGE / 03</span><strong>Iris</strong>
-            </button>
-            <button class="hero-video-tab" role="tab" aria-selected="false" data-video="./assets/hero-videos/ShieldmanShow.mp4" data-mode="orange" data-title="04 · Shieldman Showcase">
-              <span>ORANGE / 04</span><strong>Shieldman</strong>
-            </button>
-            <button class="hero-video-tab" role="tab" aria-selected="false" data-video="./assets/hero-videos/AshShow.mp4" data-mode="purple" data-title="05 · Ash Showcase">
-              <span>PURPLE / 05</span><strong>Ash</strong>
+            <button class="hero-video-tab" role="tab" aria-selected="false" data-view="interfaces" data-mode="integration" data-title="02 · 多界面接入">
+              <span>02 / INTEGRATION</span><strong>多界面接入</strong>
             </button>
           </div>
+        </div>
+      </div>
+      <div class="initiative__impact evolution-impact" data-label="价值">
+        <div class="evolution-impact__text">
+          不止完成一批英雄视频，更把“主动挖掘并强化体验价值”的方法，沉淀成能够推广到整个项目的设计工作流。
         </div>
       </div>
     </section>
@@ -2424,36 +2847,37 @@
         <span class="slide__part">Part 02 · 产出总结</span>
         <span class="slide__number">06 / 08</span>
       </div>
-      <div>
-        <p class="eyebrow">Six-Month Output</p>
-        <h2 class="headline headline--compact">半年产出不只更多，<br /><span class="blue">价值链也更完整</span></h2>
+      <div class="output__header">
+        <div>
+          <h2 class="headline headline--compact">半年产出不只更多，<br /><span class="blue">能力边界也更完整</span></h2>
+        </div>
+        <div class="output-legend" aria-label="半年对比图例">
+          <span class="output-legend__item"><i class="output-legend__swatch output-legend__swatch--previous"></i>上个半年</span>
+          <span class="output-legend__item"><i class="output-legend__swatch output-legend__swatch--current"></i>这个半年</span>
+        </div>
       </div>
       <div class="output-layout">
-        <div class="output-groups" role="tablist" aria-label="产出类别">
-          <button class="output-tab is-active" data-output="design" role="tab" aria-selected="true">
-            <span>01</span><strong>设计产出</strong><i></i>
-          </button>
-          <button class="output-tab" data-output="build" role="tab" aria-selected="false">
-            <span>02</span><strong>开发与工具</strong><i></i>
-          </button>
-          <button class="output-tab" data-output="initiative" role="tab" aria-selected="false">
-            <span>03</span><strong>自主需求</strong><i></i>
-          </button>
-          <button class="output-tab" data-output="growth" role="tab" aria-selected="false">
-            <span>04</span><strong>能力沉淀</strong><i></i>
-          </button>
-        </div>
-        <div class="output-viz">
-          <div class="output-chart-wrap">
-            <canvas class="output-chart" id="outputChart" aria-label="价值链覆盖图"></canvas>
-            <span class="output-caption">洞察 · 设计 · 落地 · 复用</span>
+        <section class="output-panel" aria-label="设计产出半年对比">
+          <div class="output-panel__head" data-index="01">
+            <span class="output-panel__kicker">DESIGN OUTPUT</span>
+            <h3>设计产出</h3>
           </div>
-          <div class="output-detail">
-            <span class="output-detail__label">Selected output</span>
-            <h3 class="output-detail__title" id="outputTitle">设计产出</h3>
-            <div class="output-cloud" id="outputCloud" aria-live="polite"></div>
+          <canvas class="output-chart" data-output-radar="design" aria-label="设计案、引擎动画和UI资源的半年对比雷达图"></canvas>
+        </section>
+        <section class="output-panel" aria-label="工具与流程半年对比">
+          <div class="output-panel__head" data-index="02">
+            <span class="output-panel__kicker">TOOLS &amp; PROCESS</span>
+            <h3>工具与流程</h3>
           </div>
-        </div>
+          <canvas class="output-chart" data-output-radar="tools" aria-label="引擎插件、Skill和经验总结的半年对比雷达图"></canvas>
+        </section>
+        <section class="output-panel" aria-label="全栈技能半年对比">
+          <div class="output-panel__head" data-index="03">
+            <span class="output-panel__kicker">FULL-STACK SKILLS</span>
+            <h3>全栈技能</h3>
+          </div>
+          <canvas class="output-chart" data-output-radar="fullstack" aria-label="自主需求、Bug修复和美术产出的半年对比雷达图"></canvas>
+        </section>
       </div>
     </section>
 
@@ -2463,24 +2887,23 @@
         <span class="slide__number">07 / 08</span>
       </div>
       <div>
-        <p class="eyebrow">Next Evolution</p>
-        <h2 class="headline headline--compact">继续拓展边界，获得<span class="blue">完整的游戏制作能力</span></h2>
+        <h2 class="headline headline--compact">从 X16 品质护航到独当一面，<br /><span class="blue">逐步承担完整产品责任</span></h2>
       </div>
       <div class="future-path">
         <article class="future-step">
-          <span class="future-step__time">NOW · 近期</span>
-          <h3>深化设计基本盘</h3>
-          <p>继续提高体验判断、系统设计与落地质量，让设计始终是能力进化的原点。</p>
+          <span class="future-step__time">NOW · 近期 / X16</span>
+          <h3>为 X16 发育保驾护航</h3>
+          <p>以体验为原点支撑项目稳步前进；持续自主发起、推动并闭环游戏品质迭代，让每一次优化真正进入版本。</p>
         </article>
         <article class="future-step">
-          <span class="future-step__time">NEXT · 中期</span>
-          <h3>补全 AI 与开发</h3>
-          <p>持续建设 AI 工作流与开发能力，独立完成可玩的系统和玩法原型。</p>
+          <span class="future-step__time">NEXT · 中期 / MAIN FORCE</span>
+          <h3>深化全栈，承担主力责任</h3>
+          <p>深化设计、AI 与开发能力，从解决单点问题走向独立负责完整系统与关键玩法，承担从判断、方案到落地的主力责任。</p>
         </article>
         <article class="future-step">
-          <span class="future-step__time">NORTH STAR · 长期</span>
-          <h3>全栈游戏制作人</h3>
-          <p>同时拥有设计、开发与产品判断，把更多游戏想法转化为完整体验。</p>
+          <span class="future-step__time">NORTH STAR · 长期 / PRODUCER</span>
+          <h3>成为能独当一面的游戏制作人</h3>
+          <p>站在公司与制作人视角统筹产品方向、团队协同与资源投入，对项目结果负责，持续打造有竞争力的游戏体验与长期产品价值。</p>
         </article>
       </div>
     </section>
@@ -2491,9 +2914,8 @@
         <span class="slide__number">08 / 08</span>
       </div>
       <div class="closing__content">
-        <p class="eyebrow" style="color: var(--cyan)">Keep Evolving</p>
-        <h2 class="headline">设计是原点，<br />完整落地是<span style="color:var(--cyan)">下一站</span></h2>
-        <p>继续拓展职业边界，把更多想法变成真正可以体验的产品。</p>
+        <h2 class="headline headline--compact">以体验为原点，<br />做<span style="color:var(--cyan)">无边界的游戏开发者。</span></h2>
+        <p>能力有核心、团队有重心、能力无边界</p>
       </div>
       <div class="closing__thanks">
         <span>谢谢大家</span>
@@ -2534,10 +2956,13 @@
       const fullscreenBtn = document.getElementById("fullscreenBtn");
       const announcer = document.getElementById("slideAnnouncer");
       const partLabels = Array.from(document.querySelectorAll(".nav__part"));
-      const heroShowcase = document.getElementById("heroShowcase");
       const heroMedia = document.getElementById("heroMedia");
       const heroMediaTitle = document.getElementById("heroMediaTitle");
       const heroVideoTabs = Array.from(document.querySelectorAll(".hero-video-tab"));
+      const heroViews = Array.from(document.querySelectorAll(".hero-view"));
+      const heroVideos = Array.from(document.querySelectorAll(".hero-view video"));
+      const bossVideos = Array.from(document.querySelectorAll(".boss-slide video"));
+      const outputCharts = Array.from(document.querySelectorAll("[data-output-radar]"));
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       let current = Math.max(0, Math.min(slides.length - 1, Number(location.hash.replace("#/", "")) - 1 || 0));
       let wheelLocked = false;
@@ -2547,10 +2972,7 @@
       let coverPointerY = 0;
       let evolutionStartedAt = performance.now();
       let evolutionFocus = 0;
-      let outputKey = "design";
-      let outputAnimationStart = performance.now();
-      let outputFrom = [4.4, 5, 3.6, 3.2];
-      let outputTo = [...outputFrom];
+      let outputStartedAt = performance.now();
 
       slides.forEach((slide, index) => {
         const dot = document.createElement("button");
@@ -2585,14 +3007,8 @@
         partLabels.forEach((label, index) => label.classList.toggle("is-active", index === part));
 
         if (current === 1) evolutionStartedAt = performance.now();
-        if (current === 5) outputAnimationStart = performance.now();
-        if (heroShowcase) {
-          if (current === 4) {
-            heroShowcase.play().catch(() => {});
-          } else {
-            heroShowcase.pause();
-          }
-        }
+        if (current === 5) outputStartedAt = performance.now();
+        syncPageMedia();
 
         if (updateHash) history.replaceState(null, "", `#/${current + 1}`);
         announcer.textContent = `第 ${current + 1} 页，共 ${slides.length} 页：${slides[current].getAttribute("aria-label")}`;
@@ -2694,10 +3110,28 @@
         });
       });
 
+      function syncPageMedia() {
+        bossVideos.forEach((video) => {
+          if (current === 2) video.play().catch(() => {});
+          else video.pause();
+        });
+
+        heroVideos.forEach((video) => {
+          const view = video.closest(".hero-view");
+          if (current === 4 && view?.classList.contains("is-active")) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        });
+      }
+
       heroVideoTabs.forEach((tab) => {
         tab.addEventListener("click", () => {
           if (tab.classList.contains("is-active")) {
-            heroShowcase.paused ? heroShowcase.play().catch(() => {}) : heroShowcase.pause();
+            const activeVideos = heroVideos.filter((video) => video.closest(".hero-view")?.classList.contains("is-active"));
+            const shouldPlay = activeVideos.some((video) => video.paused);
+            activeVideos.forEach((video) => shouldPlay ? video.play().catch(() => {}) : video.pause());
             return;
           }
 
@@ -2709,66 +3143,10 @@
 
           heroMedia.dataset.mode = tab.dataset.mode;
           heroMediaTitle.textContent = tab.dataset.title;
-          heroShowcase.src = tab.dataset.video;
-          heroShowcase.load();
-          heroShowcase.play().catch(() => {});
-        });
-      });
-
-      const outputData = {
-        design: {
-          title: "设计产出",
-          color: "#2157ff",
-          profile: [4.4, 5, 3.6, 3.2],
-          items: ["体验框架", "美术方向", "交互方案", "资源输出", "设计规范"]
-        },
-        build: {
-          title: "开发与工具",
-          color: "#00a8d6",
-          profile: [2.5, 3.2, 5, 4.6],
-          items: ["开发工作流", "提效工具", "原型实现", "交付协同"]
-        },
-        initiative: {
-          title: "自主需求",
-          color: "#7a5cff",
-          profile: [4.8, 4.2, 4.5, 3.7],
-          items: ["问题发现", "需求发起", "系统设计", "0→1 落地"]
-        },
-        growth: {
-          title: "能力沉淀",
-          color: "#416f00",
-          profile: [3.7, 3.8, 3.2, 4.8],
-          items: ["AI 协作", "全栈实践", "方法沉淀", "能力分享"]
-        }
-      };
-
-      const outputCloud = document.getElementById("outputCloud");
-      const outputTitle = document.getElementById("outputTitle");
-
-      function renderOutputs(key) {
-        const nextData = outputData[key];
-        outputCloud.classList.add("is-changing");
-        outputFrom = currentOutputValues(performance.now());
-        outputTo = [...nextData.profile];
-        outputAnimationStart = performance.now();
-        outputKey = key;
-        window.setTimeout(() => {
-          outputTitle.textContent = nextData.title;
-          outputCloud.innerHTML = nextData.items
-            .map((item, index) => `<span class="output-pill" style="animation-delay:${index * 55}ms">${item}</span>`)
-            .join("");
-          outputCloud.classList.remove("is-changing");
-        }, 170);
-      }
-
-      document.querySelectorAll(".output-tab").forEach((tab) => {
-        tab.addEventListener("click", () => {
-          document.querySelectorAll(".output-tab").forEach((item) => {
-            const active = item === tab;
-            item.classList.toggle("is-active", active);
-            item.setAttribute("aria-selected", active ? "true" : "false");
+          heroViews.forEach((view) => {
+            view.classList.toggle("is-active", view.dataset.view === tab.dataset.view);
           });
-          renderOutputs(tab.dataset.output);
+          syncPageMedia();
         });
       });
 
@@ -2784,6 +3162,167 @@
         const ctx = canvas.getContext("2d");
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         return { ctx, width: rect.width, height: rect.height, dpr };
+      }
+
+      const outputData = {
+        design: {
+          labels: [["设计案", "【40+/40+】"], ["引擎动画", "【20+/40+】"], ["UI 资源", "【18+/40+】"]],
+          previous: [4.8, 3.15, 2.95],
+          current: [4.8, 4.8, 4.8]
+        },
+        tools: {
+          labels: [["引擎插件", "【3/6】"], ["Skill", "【2/10+】"], ["经验总结", "【2/5】"]],
+          previous: [3.05, 2.3, 2.3],
+          current: [3.9, 4.85, 3.65]
+        },
+        fullstack: {
+          labels: [["自主需求", "【0/2】"], ["Bug 修复", "【0/20+】"], ["美术产出", "【0/30+】"]],
+          previous: [0, 0, 0],
+          current: [2.75, 4.35, 4.85]
+        }
+      };
+
+      function traceOutputPolygon(ctx, points) {
+        ctx.beginPath();
+        points.forEach((point, index) => index === 0 ? ctx.moveTo(point.x, point.y) : ctx.lineTo(point.x, point.y));
+        ctx.closePath();
+      }
+
+      function drawOutputShape(ctx, points, fill, stroke, pointSize) {
+        traceOutputPolygon(ctx, points);
+        ctx.fillStyle = fill;
+        ctx.fill();
+        ctx.strokeStyle = stroke;
+        ctx.lineWidth = 2.35;
+        ctx.shadowColor = `${stroke}3f`;
+        ctx.shadowBlur = 12;
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+
+        points.forEach((point) => {
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, pointSize, 0, Math.PI * 2);
+          ctx.fillStyle = stroke;
+          ctx.fill();
+          ctx.lineWidth = 2.5;
+          ctx.strokeStyle = "#f4f3ef";
+          ctx.stroke();
+        });
+      }
+
+      function drawOutputRadar(canvas, time) {
+        const data = outputData[canvas.dataset.outputRadar];
+        if (!data) return;
+
+        const { ctx, width, height } = prepareCanvas(canvas);
+        ctx.clearRect(0, 0, width, height);
+        const chartIndex = outputCharts.indexOf(canvas);
+        const cx = width / 2;
+        const radius = Math.min(width * .34, height * .38);
+        const cy = height / 2 - radius * .2;
+        const angles = [Math.PI * 7 / 6, -Math.PI / 6, Math.PI / 2];
+        const pointsAt = (values, progress = 1) => values.map((value, index) => ({
+          x: cx + Math.cos(angles[index]) * radius * value / 5 * progress,
+          y: cy + Math.sin(angles[index]) * radius * value / 5 * progress
+        }));
+        const gridPoints = (level) => angles.map((angle) => ({
+          x: cx + Math.cos(angle) * radius * level / 5,
+          y: cy + Math.sin(angle) * radius * level / 5
+        }));
+
+        const drawGrid = () => {
+          for (let level = 1; level <= 5; level += 1) {
+            traceOutputPolygon(ctx, gridPoints(level));
+            ctx.strokeStyle = level === 5 ? "rgba(17,17,15,.2)" : "rgba(17,17,15,.08)";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+          angles.forEach((angle) => {
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(cx + Math.cos(angle) * radius, cy + Math.sin(angle) * radius);
+            ctx.strokeStyle = "rgba(17,17,15,.09)";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          });
+        };
+
+        drawGrid();
+        const localTime = time - outputStartedAt - chartIndex * 90;
+        const rawProgress = reduceMotion ? 1 : Math.min(1, Math.max(0, localTime / 720));
+        const progress = 1 - Math.pow(1 - rawProgress, 3);
+        const motionTime = Math.max(0, localTime - 720);
+        const currentBreath = reduceMotion || rawProgress < 1 ? 1 : 1 + Math.sin(motionTime * .0018 + chartIndex) * .008;
+        const previousBreath = reduceMotion || rawProgress < 1 ? 1 : 1 + Math.sin(motionTime * .0016 + chartIndex + 1.4) * .006;
+        const currentPoints = pointsAt(data.current, progress * currentBreath);
+        const previousPoints = pointsAt(data.previous, progress * previousBreath);
+        const pointPulse = reduceMotion ? 0 : (Math.sin(time * .004 + chartIndex) + 1) * .28;
+
+        const currentFill = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+        currentFill.addColorStop(0, "rgba(33,87,255,.34)");
+        currentFill.addColorStop(1, "rgba(33,87,255,.13)");
+        drawOutputShape(ctx, currentPoints, currentFill, "#2157ff", 4.1 + pointPulse);
+
+        ctx.save();
+        traceOutputPolygon(ctx, previousPoints);
+        ctx.clip();
+        ctx.clearRect(0, 0, width, height);
+        drawGrid();
+        const previousFill = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+        previousFill.addColorStop(0, "rgba(183,82,34,.42)");
+        previousFill.addColorStop(1, "rgba(214,124,67,.16)");
+        drawOutputShape(ctx, previousPoints, previousFill, "#a95227", 3.7 + pointPulse * .7);
+        ctx.restore();
+
+        const vertices = gridPoints(5);
+        data.labels.forEach(([name, value], index) => {
+          const vertex = vertices[index];
+          const isBottom = index === 2;
+          const x = vertex.x;
+          const y = vertex.y + (isBottom ? 25 : -24);
+          ctx.textBaseline = "middle";
+          if (width < 275) {
+            ctx.textAlign = "center";
+            ctx.fillStyle = "#55544e";
+            ctx.font = '700 9px "Microsoft YaHei", sans-serif';
+            ctx.fillText(name, x, y);
+            ctx.fillStyle = "#2157ff";
+            ctx.font = '800 8px Arial, "Microsoft YaHei", sans-serif';
+            ctx.fillText(value, x, y + 12);
+          } else {
+            const nameFont = '700 12.5px "Microsoft YaHei", sans-serif';
+            const valueFont = '800 10.5px Arial, "Microsoft YaHei", sans-serif';
+            ctx.font = nameFont;
+            const nameWidth = ctx.measureText(name).width;
+            ctx.font = valueFont;
+            const valueWidth = ctx.measureText(value).width;
+            const startX = x - (nameWidth + valueWidth + 5) / 2;
+            ctx.textAlign = "left";
+            ctx.fillStyle = "#55544e";
+            ctx.font = nameFont;
+            ctx.fillText(name, startX, y);
+            ctx.fillStyle = "#2157ff";
+            ctx.font = valueFont;
+            ctx.fillText(value, startX + nameWidth + 5, y);
+          }
+        });
+
+        if (!reduceMotion && rawProgress === 1) {
+          const cycle = (motionTime * .00072 + chartIndex * .31) % 1;
+          const activeVertex = Math.floor(cycle * 3);
+          const phase = cycle * 3 - activeVertex;
+          const vertex = vertices[activeVertex];
+          ctx.beginPath();
+          ctx.arc(vertex.x, vertex.y, 4 + phase * 11, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(33,87,255,${(1 - phase) * .22})`;
+          ctx.lineWidth = 1.2;
+          ctx.stroke();
+        }
+      }
+
+      function drawOutputs(time) {
+        if (current !== 5) return;
+        outputCharts.forEach((canvas) => drawOutputRadar(canvas, time));
       }
 
       const coverCanvas = document.getElementById("coverCanvas");
@@ -3026,106 +3565,21 @@
         }
       }
 
-      const outputCanvas = document.getElementById("outputChart");
-      const outputLabels = ["洞察", "设计", "落地", "复用"];
-
-      function currentOutputValues(time) {
-        const raw = Math.min(1, Math.max(0, (time - outputAnimationStart) / 680));
-        const eased = 1 - Math.pow(1 - raw, 3);
-        return outputFrom.map((value, index) => value + (outputTo[index] - value) * eased);
-      }
-
-      function drawOutput(time) {
-        if (current !== 5) return;
-        const { ctx, width, height } = prepareCanvas(outputCanvas);
-        ctx.clearRect(0, 0, width, height);
-        const cx = width / 2;
-        const cy = height / 2 + 8;
-        const radius = Math.min(width, height) * .33;
-        const angles = [-Math.PI / 2, 0, Math.PI / 2, Math.PI];
-
-        for (let level = 1; level <= 5; level += 1) {
-          ctx.beginPath();
-          angles.forEach((angle, index) => {
-            const r = radius * level / 5;
-            const x = cx + Math.cos(angle) * r;
-            const y = cy + Math.sin(angle) * r;
-            index === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-          });
-          ctx.closePath();
-          ctx.strokeStyle = level === 5 ? "rgba(17,17,15,.24)" : "rgba(17,17,15,.09)";
-          ctx.lineWidth = 1;
-          ctx.stroke();
-        }
-
-        angles.forEach((angle, index) => {
-          const x = cx + Math.cos(angle) * radius;
-          const y = cy + Math.sin(angle) * radius;
-          ctx.beginPath();
-          ctx.moveTo(cx, cy);
-          ctx.lineTo(x, y);
-          ctx.strokeStyle = "rgba(17,17,15,.12)";
-          ctx.stroke();
-
-          const labelRadius = radius + 28;
-          const lx = cx + Math.cos(angle) * labelRadius;
-          const ly = cy + Math.sin(angle) * labelRadius;
-          ctx.fillStyle = "#55544e";
-          ctx.font = '700 13px "Microsoft YaHei", sans-serif';
-          ctx.textAlign = Math.abs(Math.cos(angle)) < .1 ? "center" : Math.cos(angle) > 0 ? "left" : "right";
-          ctx.textBaseline = Math.abs(Math.sin(angle)) < .1 ? "middle" : Math.sin(angle) > 0 ? "top" : "bottom";
-          ctx.fillText(outputLabels[index], lx, ly);
-        });
-
-        const values = currentOutputValues(time);
-        const accent = outputData[outputKey].color;
-        const polygon = values.map((value, index) => ({
-          x: cx + Math.cos(angles[index]) * radius * value / 5,
-          y: cy + Math.sin(angles[index]) * radius * value / 5
-        }));
-
-        const fill = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
-        fill.addColorStop(0, `${accent}66`);
-        fill.addColorStop(1, `${accent}18`);
-        ctx.beginPath();
-        polygon.forEach((point, index) => index === 0 ? ctx.moveTo(point.x, point.y) : ctx.lineTo(point.x, point.y));
-        ctx.closePath();
-        ctx.fillStyle = fill;
-        ctx.fill();
-        ctx.strokeStyle = accent;
-        ctx.lineWidth = 2.5;
-        ctx.shadowColor = `${accent}55`;
-        ctx.shadowBlur = 16;
-        ctx.stroke();
-        ctx.shadowBlur = 0;
-
-        polygon.forEach((point) => {
-          ctx.beginPath();
-          ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
-          ctx.fillStyle = accent;
-          ctx.fill();
-          ctx.lineWidth = 3;
-          ctx.strokeStyle = "#f4f3ef";
-          ctx.stroke();
-        });
-      }
-
       function animationLoop(time) {
         if (!document.hidden) {
           if (!reduceMotion) drawCover(time);
           else if (current === 0) drawCover(0);
           drawEvolution(time);
-          drawOutput(time);
+          drawOutputs(time);
         }
         requestAnimationFrame(animationLoop);
       }
 
       window.addEventListener("resize", () => {
         evolutionStartedAt = performance.now() - 1300;
-        outputAnimationStart = performance.now() - 680;
+        outputStartedAt = performance.now() - 720;
       }, { passive: true });
 
-      renderOutputs("design");
       goTo(current, false, true);
       requestAnimationFrame(animationLoop);
     })();

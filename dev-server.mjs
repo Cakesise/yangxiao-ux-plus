@@ -6,25 +6,40 @@ import { fileURLToPath } from "node:url";
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const port = Number(process.env.PORT || 3000);
-const videoRoot = path.join(root, "assets", "hero-videos");
+const assetsRoot = path.join(root, "assets");
+const contentTypes = {
+  ".gif": "image/gif",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".mp4": "video/mp4",
+  ".png": "image/png",
+  ".webp": "image/webp"
+};
 
 const server = http.createServer(async (request, response) => {
   const url = new URL(request.url, `http://${request.headers.host}`);
 
-  if (url.pathname.startsWith("/assets/hero-videos/")) {
-    const filename = path.basename(decodeURIComponent(url.pathname));
-    const filePath = path.join(videoRoot, filename);
+  if (url.pathname.startsWith("/assets/")) {
+    const relativePath = decodeURIComponent(url.pathname.slice("/assets/".length));
+    const filePath = path.resolve(assetsRoot, relativePath.replaceAll("/", path.sep));
+
+    if (filePath !== assetsRoot && !filePath.startsWith(`${assetsRoot}${path.sep}`)) {
+      response.writeHead(403, { "content-type": "text/plain; charset=utf-8" });
+      response.end("Forbidden");
+      return;
+    }
 
     try {
       const stat = await fs.stat(filePath);
       const range = request.headers.range;
+      const contentType = contentTypes[path.extname(filePath).toLowerCase()] || "application/octet-stream";
       const commonHeaders = {
-        "content-type": "video/mp4",
-        "accept-ranges": "bytes",
+        "content-type": contentType,
+        "accept-ranges": contentType === "video/mp4" ? "bytes" : "none",
         "cache-control": "public, max-age=3600"
       };
 
-      if (range) {
+      if (range && contentType === "video/mp4") {
         const [startText, endText] = range.replace("bytes=", "").split("-");
         const start = Number(startText);
         const end = Math.min(endText ? Number(endText) : stat.size - 1, stat.size - 1);
