@@ -2745,7 +2745,7 @@
         <span class="slide__number">03 / 08</span>
       </div>
       <div class="map__title">
-        <h2 class="headline headline--medium">拓宽边界，<span class="blue">功率陡升</span></h2>
+        <h2 class="headline headline--medium">输出提高，<span class="blue">来自方式的提升</span></h2>
       </div>
       <div class="evolution-chart" aria-label="能力进化阶段与个人输出效率波峰图">
         <div class="axis-x"></div>
@@ -3036,7 +3036,7 @@
       </div>
       <div class="initiative__impact evolution-impact" data-label="价值">
         <div class="evolution-impact__text">
-          不止完成一批英雄视频，更把“主动挖掘并强化体验价值”的方法，沉淀成能够推广到整个项目的设计工作流。
+          把“主动挖掘并强化体验价值”的方法，沉淀成能够推广到整个项目的设计工作流。
         </div>
       </div>
     </section>
@@ -3048,7 +3048,7 @@
       </div>
       <div class="output__header">
         <div>
-          <h2 class="headline headline--compact">半年产出不只更多，<br /><span class="blue">能力边界也更完整</span></h2>
+          <h2 class="headline headline--compact">产出提升，<br /><span class="blue">能力边界也更完整</span></h2>
         </div>
         <div class="output-legend" aria-label="半年对比图例">
           <span class="output-legend__item"><i class="output-legend__swatch output-legend__swatch--previous"></i>上个半年</span>
@@ -3101,8 +3101,8 @@
         </article>
         <article class="future-step">
           <span class="future-step__time">NORTH STAR · 长期 / PRODUCER</span>
-          <h3>成为能独当一面的游戏制作人</h3>
-          <p>站在公司与制作人视角统筹产品方向、团队协同与资源投入，对项目结果负责，持续打造有竞争力的游戏体验与长期产品价值。</p>
+          <h3>能独抗大梁的游戏制作者</h3>
+          <p>能跳出单一视野，统筹产品方向、对项目结果负责，组织团队协同与资源投入，持续打造有竞争力的游戏体验与长期产品价值。</p>
         </article>
       </div>
     </section>
@@ -3143,6 +3143,7 @@
       <strong>文本编辑模式</strong>
       <span>点击蓝色虚线区域修改，输入自动保存</span>
     </div>
+    <button class="editor-bar__button" id="exportTextBtn" type="button">导出修改</button>
     <button class="editor-bar__button" id="resetTextBtn" type="button">恢复原文</button>
     <button class="editor-bar__button editor-bar__button--primary" id="finishEditingBtn" type="button">完成</button>
   </div>
@@ -3166,6 +3167,7 @@
       const editBtn = document.getElementById("editBtn");
       const fullscreenBtn = document.getElementById("fullscreenBtn");
       const finishEditingBtn = document.getElementById("finishEditingBtn");
+      const exportTextBtn = document.getElementById("exportTextBtn");
       const resetTextBtn = document.getElementById("resetTextBtn");
       const announcer = document.getElementById("slideAnnouncer");
       const partLabels = Array.from(document.querySelectorAll(".nav__part"));
@@ -3233,6 +3235,7 @@
       ].join(",");
 
       let savedTextEdits = {};
+      const originalTextEdits = {};
       try {
         savedTextEdits = JSON.parse(localStorage.getItem(textStorageKey) || "{}");
       } catch (_) {
@@ -3246,6 +3249,7 @@
           element.dataset.editKey = key;
           element.setAttribute("contenteditable", "false");
           element.setAttribute("spellcheck", "false");
+          originalTextEdits[key] = element.innerHTML;
           if (Object.prototype.hasOwnProperty.call(savedTextEdits, key)) {
             element.innerHTML = savedTextEdits[key];
           }
@@ -3289,6 +3293,33 @@
 
       editBtn.addEventListener("click", () => setEditing(!isEditing));
       finishEditingBtn.addEventListener("click", () => setEditing(false));
+      exportTextBtn.addEventListener("click", () => {
+        const edits = editableTextNodes
+          .map((element) => ({
+            key: element.dataset.editKey,
+            originalHtml: originalTextEdits[element.dataset.editKey],
+            html: element.innerHTML
+          }))
+          .filter((item) => item.html !== item.originalHtml);
+        const payload = {
+          format: "ux-plus-text-edits",
+          version: 1,
+          exportedAt: new Date().toISOString(),
+          edits
+        };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "UX-Plus-文字修改.json";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+        const previousLabel = exportTextBtn.textContent;
+        exportTextBtn.textContent = `已导出 ${edits.length} 项`;
+        setTimeout(() => { exportTextBtn.textContent = previousLabel; }, 1800);
+      });
       resetTextBtn.addEventListener("click", () => {
         const shouldReset = window.confirm("确定恢复网站中的全部原始文本吗？此操作会清除当前浏览器保存的文字修改。");
         if (!shouldReset) return;
